@@ -1,0 +1,22 @@
+# Allow access to uploaded files
+<Files "*">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+# Prevent execution of PHP files
+<Files "*.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Prevent access to sensitive files
+<Files "*.conf">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.htaccess">
+    Order Deny,Allow
+    Deny from all
+</Files>

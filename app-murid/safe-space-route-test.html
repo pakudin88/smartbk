@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Safe Space Route Testing</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-link { display: block; padding: 10px; margin: 5px 0; background: #f0f0f0; text-decoration: none; border-radius: 5px; }
+        .test-link:hover { background: #e0e0e0; }
+        .success { color: green; }
+        .error { color: red; }
+        h2 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ Safe Space Route Testing</h1>
+    
+    <h2>📋 Test URLs - Klik untuk test setiap route:</h2>
+    
+    <h3>Direct Routes (Outside Group):</h3>
+    <a href="http://localhost:9000/test-konsul" class="test-link" target="_blank">
+        ✅ Test Konsul (Direct) - /test-konsul
+    </a>
+    <a href="http://localhost:9000/direct-konsul-cepat" class="test-link" target="_blank">
+        ✅ Direct Konsul Cepat - /direct-konsul-cepat
+    </a>
+    <a href="http://localhost:9000/direct-jadwal-konseling" class="test-link" target="_blank">
+        ✅ Direct Jadwal Konseling - /direct-jadwal-konseling
+    </a>
+    <a href="http://localhost:9000/direct-jurnal-digital" class="test-link" target="_blank">
+        ✅ Direct Jurnal Digital - /direct-jurnal-digital
+    </a>
+    <a href="http://localhost:9000/direct-pusat-informasi" class="test-link" target="_blank">
+        ✅ Direct Pusat Informasi - /direct-pusat-informasi
+    </a>
+    
+    <h3>Safe Space Group Routes:</h3>
+    <a href="http://localhost:9000/safe-space/konsul-cepat" class="test-link" target="_blank">
+        🔍 Safe Space Konsul Cepat - /safe-space/konsul-cepat
+    </a>
+    <a href="http://localhost:9000/safe-space/jadwal-konseling" class="test-link" target="_blank">
+        🔍 Safe Space Jadwal Konseling - /safe-space/jadwal-konseling
+    </a>
+    <a href="http://localhost:9000/safe-space/jurnal-digital" class="test-link" target="_blank">
+        🔍 Safe Space Jurnal Digital - /safe-space/jurnal-digital
+    </a>
+    <a href="http://localhost:9000/safe-space/pusat-informasi" class="test-link" target="_blank">
+        🔍 Safe Space Pusat Informasi - /safe-space/pusat-informasi
+    </a>
+    
+    <h2>📝 Instructions:</h2>
+    <ol>
+        <li><strong>Test Direct Routes First:</strong> Klik semua link "Direct Routes" di atas. Jika berhasil, berarti controller berfungsi.</li>
+        <li><strong>Test Group Routes:</strong> Jika direct routes bekerja, test group routes. Jika gagal, masalahnya di routing group.</li>
+        <li><strong>Expected Result:</strong> Setiap link harus menampilkan halaman sederhana dengan pesan "Works!"</li>
+        <li><strong>If 404 Error:</strong> 
+            <ul>
+                <li>Pastikan Apache running</li>
+                <li>Clear browser cache</li>
+                <li>Check XAMPP logs</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h2>🔧 Controller Status:</h2>
+    <p><strong>SafeSpaceController.php:</strong> ✅ Simplified for debugging</p>
+    <p><strong>Routes:</strong> ✅ Both direct and group routes added</p>
+    <p><strong>Cache:</strong> ✅ Cleared</p>
+    <p><strong>Syntax:</strong> ✅ No errors</p>
+    
+    <h2>📊 Troubleshooting:</h2>
+    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <strong>If STILL getting 404:</strong><br>
+        1. Restart XAMPP Apache<br>
+        2. Check .htaccess file in public folder<br>
+        3. Verify app/Config/App.php baseURL setting<br>
+        4. Check if mod_rewrite is enabled in Apache
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="http://localhost:9000/dashboard" style="padding: 15px 30px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-size: 18px;">
+            🏠 Back to Dashboard
+        </a>
+    </div>
+</body>
+</html>

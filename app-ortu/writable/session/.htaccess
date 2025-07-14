@@ -1,0 +1,4 @@
+<Files ".ht*">
+	Require all denied
+</Files>
+Require all denied
