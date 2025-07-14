@@ -30,19 +30,11 @@ class Toolbar extends BaseConfig
      *
      * List of toolbar collectors that will be called when Debug Toolbar
      * fires up and collects data from.
+     * DISABLED for production stability
      *
      * @var list<class-string>
      */
-    public array $collectors = [
-        Timers::class,
-        Database::class,
-        Logs::class,
-        Views::class,
-        // \CodeIgniter\Debug\Toolbar\Collectors\Cache::class,
-        Files::class,
-        Routes::class,
-        Events::class,
-    ];
+    public array $collectors = [];
 
     /**
      * --------------------------------------------------------------------------

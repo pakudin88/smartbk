@@ -1,0 +1,111 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * --------------------------------------------------------------------
+ * CodeIgniter 4 command-line tools
+ * --------------------------------------------------------------------
+ *
+ * The main entry point into the CLI system and allows you to run
+ * commands and perform maintenance on your application.
+ *
+ * Because CodeIgniter can handle CLI requests as just another web request
+ * this class mainly acts as a passthrough to the framework itself.
+ */
+
+define('SPARKED', true);
+
+/*
+ * --------------------------------------------------------------------
+ * Refuse to run when called from php-cgi
+ * --------------------------------------------------------------------
+ */
+if (strpos(PHP_SAPI, 'cgi') === 0) {
+    exit("The cli tool is not supported when running php-cgi. It needs php-cli to function!\n\n");
+}
+
+// We want errors to be shown when using it from the CLI.
+error_reporting(-1);
+ini_set('display_errors', '1');
+
+/*
+ * --------------------------------------------------------------------
+ * Set the current directory
+ * --------------------------------------------------------------------
+ */
+chdir(__DIR__);
+
+/*
+ * --------------------------------------------------------------------
+ * Check for a custom path
+ * --------------------------------------------------------------------
+ */
+if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'env') {
+    $env = $_SERVER['argv'][2] ?? 'development';
+    
+    if (! in_array($env, ['development', 'testing', 'production'], true)) {
+        CLI::error('Invalid environment specified.');
+        exit(1);
+    }
+    
+    if (! file_exists($path = "env.{$env}")) {
+        CLI::error("Environment file is not found: {$path}");
+        exit(1);
+    }
+    
+    if (! copy($path, '.env')) {
+        CLI::error("Cannot copy {$path} to .env file.");
+        exit(1);
+    }
+    
+    CLI::write("Environment is successfully changed to: {$env}.");
+    exit(0);
+}
+
+/*
+ * --------------------------------------------------------------------
+ * Bootstrap
+ * --------------------------------------------------------------------
+ */
+$pathsConfig = APPPATH . 'Config/Paths.php';
+if (! file_exists($pathsConfig)) {
+    define('APPPATH', __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
+    $pathsConfig = APPPATH . 'Config/Paths.php';
+}
+
+require $pathsConfig;
+
+$paths = new Config\Paths();
+
+// Location of the framework bootstrap file.
+require rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstrap.php';
+
+// Load environment settings from .env files into $_SERVER and $_ENV
+require_once SYSTEMPATH . 'Config/DotEnv.php';
+(new CodeIgniter\Config\DotEnv(ROOTPATH))->load();
+
+// Define ENVIRONMENT
+if (! defined('ENVIRONMENT')) {
+    define('ENVIRONMENT', $_ENV['CI_ENVIRONMENT'] ?? 'development');
+}
+
+// Grab our CodeIgniter
+$app = Config\Services::codeigniter();
+$app->initialize();
+$app->setContext('cli');
+
+// Grab our Console
+$console = new CodeIgniter\CLI\Console();
+
+// Show basic information before we do anything else.
+if (is_int($suppress = array_search('--no-header', $_SERVER['argv'], true))) {
+    unset($_SERVER['argv'][$suppress]);
+    $suppress = true;
+}
+
+$console->showHeader($suppress);
+
+// fire off the command in the main framework.
+$exit = $console->run();
+
+exit($exit);

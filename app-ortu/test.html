@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App-Ortu Test</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>App-Ortu Diagnostic Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Basic PHP Information</h2>
+        <p>PHP Version: <span class="info"><?php echo PHP_VERSION; ?></span></p>
+        <p>Current Time: <span class="info"><?php echo date('Y-m-d H:i:s'); ?></span></p>
+        <p>Server: <span class="info"><?php echo $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown'; ?></span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>2. File Structure Check</h2>
+        <?php
+        $requiredFiles = [
+            'app/Config/App.php',
+            'app/Config/Database.php',
+            'app/Controllers/Partnership.php',
+            'public/index.php',
+            'vendor/autoload.php',
+            '.env'
+        ];
+
+        foreach ($requiredFiles as $file) {
+            $fullPath = __DIR__ . '/' . $file;
+            if (file_exists($fullPath)) {
+                echo "<p class='success'>✓ $file exists</p>";
+            } else {
+                echo "<p class='error'>✗ $file MISSING</p>";
+            }
+        }
+        ?>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Database Connection Test</h2>
+        <?php
+        try {
+            $host = 'srv1412.hstgr.io';
+            $dbname = 'u809035070_simaklah';
+            $username = 'u809035070_simaklah';
+            $password = 'Simaklah88#';
+            
+            $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
+            $pdo = new PDO($dsn, $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_TIMEOUT => 5
+            ]);
+            
+            echo "<p class='success'>✓ Database connection successful</p>";
+            
+            // Check required tables
+            $requiredTables = [
+                'parent_invitations',
+                'parent_summaries',
+                'action_plans', 
+                'parent_feedback'
+            ];
+            
+            foreach ($requiredTables as $table) {
+                $stmt = $pdo->prepare("SHOW TABLES LIKE ?");
+                $stmt->execute([$table]);
+                if ($stmt->rowCount() > 0) {
+                    echo "<p class='success'>✓ Table $table exists</p>";
+                } else {
+                    echo "<p class='error'>✗ Table $table MISSING</p>";
+                }
+            }
+            
+        } catch (Exception $e) {
+            echo "<p class='error'>✗ Database connection failed: " . htmlspecialchars($e->getMessage()) . "</p>";
+        }
+        ?>
+    </div>
+
+    <div class="test-section">
+        <h2>4. CodeIgniter Test</h2>
+        <?php
+        try {
+            // Simulate CodeIgniter loading
+            if (!defined('FCPATH')) {
+                define('FCPATH', __DIR__ . '/public' . DIRECTORY_SEPARATOR);
+            }
+            
+            if (file_exists(__DIR__ . '/app/Config/Paths.php')) {
+                require_once __DIR__ . '/app/Config/Paths.php';
+                $paths = new Config\Paths();
+                echo "<p class='success'>✓ Paths configuration loaded</p>";
+                
+                if (!defined('APPPATH')) {
+                    define('APPPATH', realpath($paths->appDirectory) . DIRECTORY_SEPARATOR);
+                }
+                if (!defined('SYSTEMPATH')) {
+                    define('SYSTEMPATH', realpath($paths->systemDirectory) . DIRECTORY_SEPARATOR);
+                }
+                if (!defined('ROOTPATH')) {
+                    define('ROOTPATH', realpath(APPPATH . '../') . DIRECTORY_SEPARATOR);
+                }
+                
+                echo "<p class='success'>✓ Directory constants defined</p>";
+                
+            } else {
+                echo "<p class='error'>✗ Paths.php not found</p>";
+            }
+            
+            // Test autoloader
+            if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+                require_once __DIR__ . '/vendor/autoload.php';
+                echo "<p class='success'>✓ Composer autoloader loaded</p>";
+            } else {
+                echo "<p class='error'>✗ Composer autoloader not found</p>";
+            }
+            
+        } catch (Exception $e) {
+            echo "<p class='error'>✗ CodeIgniter loading error: " . htmlspecialchars($e->getMessage()) . "</p>";
+        }
+        ?>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Environment Configuration</h2>
+        <?php
+        if (file_exists(__DIR__ . '/.env')) {
+            echo "<p class='success'>✓ .env file exists</p>";
+            $envContent = file_get_contents(__DIR__ . '/.env');
+            if (strpos($envContent, 'CI_ENVIRONMENT') !== false) {
+                echo "<p class='success'>✓ CI_ENVIRONMENT found in .env</p>";
+            }
+            if (strpos($envContent, 'app.baseURL') !== false) {
+                echo "<p class='success'>✓ app.baseURL found in .env</p>";
+            }
+            if (strpos($envContent, 'database.default.hostname') !== false) {
+                echo "<p class='success'>✓ Database config found in .env</p>";
+            }
+        } else {
+            echo "<p class='error'>✗ .env file not found</p>";
+        }
+        ?>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Direct Application Test</h2>
+        <p><a href="public/" target="_blank">Test App-Ortu Application</a></p>
+        <p><a href="public/test" target="_blank">Test Route</a></p>
+    </div>
+
+</body>
+</html>

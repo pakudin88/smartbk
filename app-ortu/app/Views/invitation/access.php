@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/partnership_layout') ?>
+<?= $this->extend('layouts/modern_layout') ?>
 
 <?= $this->section('content') ?>
 <div class="row justify-content-center">

@@ -26,12 +26,91 @@ class Partnership extends BaseController
             return redirect()->to('/dashboard');
         }
         
-        // Tampilkan halaman akses undangan
+        // Redirect ke halaman login yang baru
+        return redirect()->to('/login');
+    }
+    
+    // Halaman login yang baru dan menarik
+    public function login()
+    {
+        // Jika sudah login, redirect ke dashboard
+        if ($this->session->get('parent_logged_in')) {
+            return redirect()->to('/dashboard');
+        }
+        
         $data = [
-            'title' => 'Akses Undangan - Jendela Kemitraan'
+            'title' => 'Login - Jendela Kemitraan'
         ];
         
-        return view('invitation/access', $data);
+        return view('invitation/login', $data);
+    }
+    
+    // Halaman notifikasi
+    public function notifications()
+    {
+        // Cek login
+        if (!$this->session->get('parent_logged_in')) {
+            return redirect()->to('/login');
+        }
+        
+        $data = [
+            'title' => 'Notifikasi - Smart BookKeeping',
+            'parent_name' => $this->session->get('parent_name'),
+            'student_name' => $this->session->get('student_name')
+        ];
+        
+        return view('partnership/notifications', $data);
+    }
+    
+    // Halaman profil anak
+    public function profile()
+    {
+        // Cek login
+        if (!$this->session->get('parent_logged_in')) {
+            return redirect()->to('/login');
+        }
+        
+        $data = [
+            'title' => 'Profil Anak - Smart BookKeeping',
+            'parent_name' => $this->session->get('parent_name'),
+            'student_name' => $this->session->get('student_name')
+        ];
+        
+        return view('partnership/profile', $data);
+    }
+    
+    // Halaman laporan akademik
+    public function academic()
+    {
+        // Cek login
+        if (!$this->session->get('parent_logged_in')) {
+            return redirect()->to('/login');
+        }
+        
+        $data = [
+            'title' => 'Laporan Akademik - Smart BookKeeping',
+            'parent_name' => $this->session->get('parent_name'),
+            'student_name' => $this->session->get('student_name')
+        ];
+        
+        return view('partnership/academic', $data);
+    }
+    
+    // Halaman keuangan
+    public function finance()
+    {
+        // Cek login
+        if (!$this->session->get('parent_logged_in')) {
+            return redirect()->to('/login');
+        }
+        
+        $data = [
+            'title' => 'Keuangan - Smart BookKeeping',
+            'parent_name' => $this->session->get('parent_name'),
+            'student_name' => $this->session->get('student_name')
+        ];
+        
+        return view('partnership/finance', $data);
     }
     
     // Proses undangan berdasarkan token

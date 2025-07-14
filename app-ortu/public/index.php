@@ -25,7 +25,7 @@ error_reporting(E_ALL);
  | Debug mode is an experimental flag that can allow for displaying
  | additional error details.
  */
-define('CI_DEBUG', 1);
+define('CI_DEBUG', 0);
 
 /*
  |--------------------------------------------------------------------------
