@@ -1,5 +1,8 @@
 <?php
 
+// Start output buffering early to prevent header issues
+ob_start();
+
 // Path to the front controller (this file)
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
@@ -115,37 +118,39 @@ if (php_sapi_name() === 'cli' && !isset($_SERVER['HTTP_HOST'])) {
 $app->setContext($context);
 
 try {
-    // Start output buffering to capture any premature outputs
+    // Get any captured output from early buffer
+    $early_output = ob_get_clean();
+    
+    // Start fresh output buffering for response handling
     ob_start();
     
     $response = $app->run();
     
-    // Get any captured output
-    $captured_output = ob_get_clean();
+    // Get any captured output during app run
+    $app_output = ob_get_clean();
     
     // Send the response properly
     if ($response && is_object($response) && method_exists($response, 'send')) {
+        // Clean response - just send it
         $response->send();
-    } else if (!empty($captured_output)) {
-        // If we have captured output but no response object, send the captured output
-        echo $captured_output;
+    } else if (!empty($app_output)) {
+        // If we have captured output but no response object, send it
+        echo $app_output;
+    } else if (!empty($early_output)) {
+        // Send any early output as fallback
+        echo $early_output;
     } else {
-        // Fallback for any issues
-        $response = service('response');
-        $response->setStatusCode(200);
-        $response->setBody('App-Ortu is ready');
-        $response->send();
+        // Last resort fallback
+        echo 'App-Ortu is ready';
     }
     
 } catch (Throwable $e) {
-    // Clean any output buffer
-    if (ob_get_level()) {
+    // Clean any output buffers
+    while (ob_get_level()) {
         ob_end_clean();
     }
     
-    // Handle any exceptions
-    $response = service('response');
-    $response->setStatusCode(500);
-    $response->setBody('Application Error: ' . $e->getMessage());
-    $response->send();
+    // Send error response
+    http_response_code(500);
+    echo 'Application Error: ' . $e->getMessage();
 }

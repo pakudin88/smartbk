@@ -50,3 +50,51 @@ Stack trace:
 #9 C:\xampp\htdocs\smartbk\app-ortu\public\index.php(121): CodeIgniter\CodeIgniter->run()
 #10 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Commands\Server\rewrite.php(47): require_once('C:\\xampp\\htdocs...')
 #11 {main}
+ERROR - 2025-07-15 03:14:27 --> mysqli_sql_exception: Unknown column 'ot.nama' in 'SELECT' in C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT u.*, ot....', 0)
+#1 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT u.*, ot....')
+#2 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT u.*, ot....')
+#3 C:\xampp\htdocs\smartbk\app-ortu\app\Controllers\Partnership.php(69): CodeIgniter\Database\BaseConnection->query('SELECT u.*, ot....', Array)
+#4 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(943): App\Controllers\Partnership->authenticate()
+#5 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(503): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Partnership))
+#6 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\smartbk\app-ortu\public\index.php(127): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Commands\Server\rewrite.php(47): require_once('C:\\xampp\\htdocs...')
+#9 {main}
+ERROR - 2025-07-15 03:21:09 --> mysqli_sql_exception: Unknown column 'ot.nama' in 'SELECT' in C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT u.*, ot....', 0)
+#1 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT u.*, ot....')
+#2 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT u.*, ot....')
+#3 C:\xampp\htdocs\smartbk\app-ortu\app\Controllers\Partnership.php(69): CodeIgniter\Database\BaseConnection->query('SELECT u.*, ot....', Array)
+#4 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(943): App\Controllers\Partnership->authenticate()
+#5 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(503): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Partnership))
+#6 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\smartbk\app-ortu\public\index.php(127): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\smartbk\app-ortu\vendor\codeigniter4\framework\system\Commands\Server\rewrite.php(47): require_once('C:\\xampp\\htdocs...')
+#9 {main}
+CRITICAL - 2025-07-15 03:28:44 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:46 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:47 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:47 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:47 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:47 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:47 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2025-07-15 03:28:48 --> ErrorException: Cannot redeclare App\Controllers\Partnership::logout()
+in APPPATH\Controllers\Partnership.php on line 412.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()

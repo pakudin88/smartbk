@@ -51,7 +51,7 @@ class Partnership extends BaseController
     {
         $rules = [
             'username' => 'required|min_length[3]',
-            'password' => 'required|min_length[6]'
+            'password' => 'required|min_length[5]'
         ];
         
         if (!$this->validate($rules)) {
@@ -61,24 +61,24 @@ class Partnership extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         
-        // Check user in database
+        // Check user in orang_tua table (parent users are stored here)
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT u.*, ot.nama as parent_name 
-                           FROM users u 
-                           LEFT JOIN orang_tua ot ON u.id = ot.user_id 
-                           WHERE u.username = ? AND u.password = ?", 
-                           [$username, md5($password)]);
+        $query = $db->query("SELECT * FROM orang_tua WHERE username = ? AND is_active = 1", [$username]);
         $user = $query->getRow();
         
-        if ($user) {
+        if ($user && password_verify($password, $user->password)) {
             // Set session
             $this->session->set([
                 'parent_logged_in' => true,
                 'user_id' => $user->id,
                 'username' => $user->username,
-                'parent_name' => $user->parent_name ?? $user->username,
-                'role_id' => $user->role_id
+                'parent_name' => $user->nama_lengkap ?? $user->username,
+                'email' => $user->email,
+                'hubungan_keluarga' => $user->hubungan_keluarga
             ]);
+            
+            // Update last login
+            $db->query("UPDATE orang_tua SET last_login = NOW() WHERE id = ?", [$user->id]);
             
             return redirect()->to('/dashboard')->with('success', 'Login berhasil!');
         } else {
@@ -225,7 +225,7 @@ class Partnership extends BaseController
     public function dashboard()
     {
         if (!$this->session->get('parent_logged_in')) {
-            return redirect()->to('/')->with('error', 'Akses ditolak. Silakan gunakan link undangan yang valid.');
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
         
         // Ambil data ringkasan untuk ditampilkan
@@ -234,16 +234,16 @@ class Partnership extends BaseController
         
         $data = [
             'title' => 'Dashboard - Jendela Kemitraan',
-            'user_name' => $this->session->get('parent_name'),
-            'student_name' => $this->session->get('student_name'),
-            'student_class' => $this->session->get('student_class'),
-            'student_nis' => $this->session->get('student_nis'),
+            'user_name' => $this->session->get('parent_name') ?? 'Orang Tua',
+            'student_name' => $this->session->get('student_name') ?? 'Siswa',
+            'student_class' => $this->session->get('student_class') ?? 'Kelas',
+            'student_nis' => $this->session->get('student_nis') ?? '000000',
             'summary_data' => $summaryData,
             'action_plans' => $actionPlans,
-            'expires_at' => $this->session->get('invitation_expires')
+            'expires_at' => $this->session->get('invitation_expires') ?? date('Y-m-d H:i:s', strtotime('+30 days'))
         ];
         
-        return view('partnership/dashboard', $data);
+        return view('partnership/dashboard_basic', $data);
     }
     
     // Halaman ringkasan & rencana aksi detail
@@ -329,35 +329,65 @@ class Partnership extends BaseController
     // Helper: Ambil data ringkasan
     private function getSummaryData()
     {
-        $db = \Config\Database::connect();
         $student_id = $this->session->get('student_id');
         
-        // Ambil ringkasan yang sudah dikurasi oleh Guru BK
-        $summary = $db->table('parent_summaries')
-            ->where('student_id', $student_id)
-            ->where('is_active', 1)
-            ->orderBy('created_at', 'DESC')
-            ->get()
-            ->getResultArray();
+        if (!$student_id) {
+            return []; // Return empty array if no student_id
+        }
         
-        return $summary;
+        try {
+            $db = \Config\Database::connect();
+            
+            // Check if table exists first
+            if (!$db->tableExists('parent_summaries')) {
+                return [];
+            }
+            
+            // Ambil ringkasan yang sudah dikurasi oleh Guru BK
+            $summary = $db->table('parent_summaries')
+                ->where('student_id', $student_id)
+                ->where('is_active', 1)
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->getResultArray();
+                
+            return $summary;
+        } catch (Exception $e) {
+            log_message('error', 'Error getting summary data: ' . $e->getMessage());
+            return [];
+        }
     }
     
     // Helper: Ambil rencana aksi
     private function getActionPlans()
     {
-        $db = \Config\Database::connect();
         $student_id = $this->session->get('student_id');
         
-        // Ambil rencana aksi untuk rumah dan sekolah
-        $plans = $db->table('action_plans')
-            ->where('student_id', $student_id)
-            ->where('is_active', 1)
-            ->orderBy('priority', 'ASC')
-            ->get()
-            ->getResultArray();
+        if (!$student_id) {
+            return []; // Return empty array if no student_id
+        }
         
-        return $plans;
+        try {
+            $db = \Config\Database::connect();
+            
+            // Check if table exists first
+            if (!$db->tableExists('action_plans')) {
+                return [];
+            }
+            
+            // Ambil rencana aksi untuk rumah dan sekolah
+            $plans = $db->table('action_plans')
+                ->where('student_id', $student_id)
+                ->where('is_active', 1)
+                ->orderBy('priority', 'ASC')
+                ->get()
+                ->getResultArray();
+                
+            return $plans;
+        } catch (Exception $e) {
+            log_message('error', 'Error getting action plans: ' . $e->getMessage());
+            return [];
+        }
     }
     
     // Helper: Ambil data progress
