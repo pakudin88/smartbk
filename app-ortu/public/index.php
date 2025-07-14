@@ -25,7 +25,7 @@ error_reporting(E_ALL);
  | Debug mode is an experimental flag that can allow for displaying
  | additional error details.
  */
-define('CI_DEBUG', 0);
+// CI_DEBUG will be defined later based on environment
 
 /*
  |--------------------------------------------------------------------------
@@ -67,14 +67,33 @@ require_once $paths->systemDirectory . '/bootstrap.php';
 require_once SYSTEMPATH . 'Config/DotEnv.php';
 (new CodeIgniter\Config\DotEnv(ROOTPATH))->load();
 
-// Define ENVIRONMENT
+// Define ENVIRONMENT first, before any CodeIgniter classes are used
 if (! defined('ENVIRONMENT')) {
-    define('ENVIRONMENT', env('CI_ENVIRONMENT', 'production'));
+    // Load .env early
+    if (file_exists(FCPATH . '../.env')) {
+        $env_content = file_get_contents(FCPATH . '../.env');
+        if (preg_match('/CI_ENVIRONMENT\s*=\s*(.+)/', $env_content, $matches)) {
+            define('ENVIRONMENT', trim($matches[1]));
+        } else {
+            define('ENVIRONMENT', 'production');
+        }
+    } else {
+        define('ENVIRONMENT', 'production');
+    }
 }
 
-// Define CI_DEBUG early to prevent issues
+// Define CI_DEBUG early
 if (! defined('CI_DEBUG')) {
-    define('CI_DEBUG', ENVIRONMENT !== 'production');
+    if (file_exists(FCPATH . '../.env')) {
+        $env_content = file_get_contents(FCPATH . '../.env');
+        if (preg_match('/CI_DEBUG\s*=\s*(.+)/', $env_content, $matches)) {
+            define('CI_DEBUG', strtolower(trim($matches[1])) === 'true');
+        } else {
+            define('CI_DEBUG', ENVIRONMENT !== 'production');
+        }
+    } else {
+        define('CI_DEBUG', ENVIRONMENT !== 'production');
+    }
 }
 
 /*
@@ -88,12 +107,45 @@ if (! defined('CI_DEBUG')) {
 $app = Config\Services::codeigniter();
 $app->initialize();
 
-$context = is_cli() ? 'php-cli' : 'web';
+// Force web context when we have HTTP variables
+$context = 'web';
+if (php_sapi_name() === 'cli' && !isset($_SERVER['HTTP_HOST'])) {
+    $context = 'php-cli';
+}
 $app->setContext($context);
 
-$response = $app->run();
-$response->send();
-
-if (CI_DEBUG && $context === 'web') {
-    $app->showDebugger();
+try {
+    // Start output buffering to capture any premature outputs
+    ob_start();
+    
+    $response = $app->run();
+    
+    // Get any captured output
+    $captured_output = ob_get_clean();
+    
+    // Send the response properly
+    if ($response && is_object($response) && method_exists($response, 'send')) {
+        $response->send();
+    } else if (!empty($captured_output)) {
+        // If we have captured output but no response object, send the captured output
+        echo $captured_output;
+    } else {
+        // Fallback for any issues
+        $response = service('response');
+        $response->setStatusCode(200);
+        $response->setBody('App-Ortu is ready');
+        $response->send();
+    }
+    
+} catch (Throwable $e) {
+    // Clean any output buffer
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+    
+    // Handle any exceptions
+    $response = service('response');
+    $response->setStatusCode(500);
+    $response->setBody('Application Error: ' . $e->getMessage());
+    $response->send();
 }

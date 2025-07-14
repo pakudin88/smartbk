@@ -13,8 +13,6 @@
  * this class mainly acts as a passthrough to the framework itself.
  */
 
-define('SPARKED', true);
-
 /*
  * --------------------------------------------------------------------
  * Refuse to run when called from php-cgi
@@ -28,50 +26,32 @@ if (strpos(PHP_SAPI, 'cgi') === 0) {
 error_reporting(-1);
 ini_set('display_errors', '1');
 
-/*
- * --------------------------------------------------------------------
- * Set the current directory
- * --------------------------------------------------------------------
+/**
+ * @var bool
+ *
+ * @deprecated No longer in use. `CodeIgniter` has `$context` property.
  */
-chdir(__DIR__);
+define('SPARKED', true);
+
+// Path to the front controller
+define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
+
+// Ensure the current directory is pointing to the front controller's directory
+chdir(FCPATH);
 
 /*
- * --------------------------------------------------------------------
- * Check for a custom path
- * --------------------------------------------------------------------
+ *---------------------------------------------------------------
+ * BOOTSTRAP THE APPLICATION
+ *---------------------------------------------------------------
+ * This process sets up the path constants, loads and registers
+ * our autoloader, along with Composer's, loads our constants
+ * and fires up an environment-specific bootstrapping.
  */
-if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'env') {
-    $env = $_SERVER['argv'][2] ?? 'development';
-    
-    if (! in_array($env, ['development', 'testing', 'production'], true)) {
-        CLI::error('Invalid environment specified.');
-        exit(1);
-    }
-    
-    if (! file_exists($path = "env.{$env}")) {
-        CLI::error("Environment file is not found: {$path}");
-        exit(1);
-    }
-    
-    if (! copy($path, '.env')) {
-        CLI::error("Cannot copy {$path} to .env file.");
-        exit(1);
-    }
-    
-    CLI::write("Environment is successfully changed to: {$env}.");
-    exit(0);
-}
 
-/*
- * --------------------------------------------------------------------
- * Bootstrap
- * --------------------------------------------------------------------
- */
-$pathsConfig = APPPATH . 'Config/Paths.php';
-if (! file_exists($pathsConfig)) {
-    define('APPPATH', __DIR__ . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
-    $pathsConfig = APPPATH . 'Config/Paths.php';
-}
+// Load our paths config file
+// This is the line that might need to be changed, depending on your folder structure.
+$pathsConfig = FCPATH . '../app/Config/Paths.php';
+// ^^^ Change this line if you move your application folder
 
 require $pathsConfig;
 

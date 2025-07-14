@@ -1,6 +1,0 @@
-CRITICAL - 2025-07-14 17:40:33 --> Error: Call to a member function send() on null
-in FCPATH\index.php on line 95.
-
-CRITICAL - 2025-07-14 17:40:55 --> Error: Call to a member function send() on null
-in FCPATH\index.php on line 95.
-

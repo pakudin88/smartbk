@@ -30,7 +30,7 @@ class Partnership extends BaseController
         return redirect()->to('/login');
     }
     
-    // Halaman login yang baru dan menarik
+    // Halaman login yang elegant
     public function login()
     {
         // Jika sudah login, redirect ke dashboard
@@ -39,10 +39,51 @@ class Partnership extends BaseController
         }
         
         $data = [
-            'title' => 'Login - Jendela Kemitraan'
+            'title' => 'Login - Jendela Kemitraan',
+            'validation' => \Config\Services::validation()
         ];
         
-        return view('invitation/login', $data);
+        return view('auth/login', $data);
+    }
+    
+    // Proses authenticate username/password
+    public function authenticate()
+    {
+        $rules = [
+            'username' => 'required|min_length[3]',
+            'password' => 'required|min_length[6]'
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
+        
+        // Check user in database
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT u.*, ot.nama as parent_name 
+                           FROM users u 
+                           LEFT JOIN orang_tua ot ON u.id = ot.user_id 
+                           WHERE u.username = ? AND u.password = ?", 
+                           [$username, md5($password)]);
+        $user = $query->getRow();
+        
+        if ($user) {
+            // Set session
+            $this->session->set([
+                'parent_logged_in' => true,
+                'user_id' => $user->id,
+                'username' => $user->username,
+                'parent_name' => $user->parent_name ?? $user->username,
+                'role_id' => $user->role_id
+            ]);
+            
+            return redirect()->to('/dashboard')->with('success', 'Login berhasil!');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Username atau password salah');
+        }
     }
     
     // Halaman notifikasi
