@@ -29,10 +29,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'sekolah_multiapp',
+        'hostname'     => 'srv1412.hstgr.io',
+        'username'     => 'u809035070_simaklah',
+        'password'     => 'Simaklah88#',
+        'database'     => 'u809035070_simaklah',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
@@ -79,6 +79,23 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+        // Override dengan environment variables jika tersedia
+        if (getenv('database.default.hostname')) {
+            $this->default['hostname'] = getenv('database.default.hostname');
+        }
+        if (getenv('database.default.username')) {
+            $this->default['username'] = getenv('database.default.username');
+        }
+        if (getenv('database.default.password')) {
+            $this->default['password'] = getenv('database.default.password');
+        }
+        if (getenv('database.default.database')) {
+            $this->default['database'] = getenv('database.default.database');
+        }
+        if (getenv('database.default.port')) {
+            $this->default['port'] = (int) getenv('database.default.port');
+        }
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that

@@ -286,6 +286,30 @@
             color: white;
         }
         
+        .demo-accounts {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-account {
+            background: white;
+            border: 1px solid #e6efff;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-account:hover {
+            border-color: #4c63d2;
+            box-shadow: 0 2px 8px rgba(76, 99, 210, 0.1);
+        }
+        
+        .demo-account strong {
+            color: #4c63d2;
+        }
+        
         .demo-note {
             text-align: center;
             color: #6b7280;

@@ -60,7 +60,7 @@ try {
             'role_id' => 2, // guru
             'full_name' => 'Demo Guru',
             'is_active' => 1,
-            'tahun_ajaran_id' => 1
+            'tahun_ajaran_id' => null // Set null untuk menghindari constraint issue
         ],
         [
             'username' => 'guru_demo',
@@ -69,7 +69,7 @@ try {
             'role_id' => 2, // guru
             'full_name' => 'Siti Demo Guru, S.Pd',
             'is_active' => 1,
-            'tahun_ajaran_id' => 1
+            'tahun_ajaran_id' => null
         ],
         [
             'username' => 'admin_guru',
@@ -78,7 +78,7 @@ try {
             'role_id' => 2, // guru
             'full_name' => 'Admin Demo Guru',
             'is_active' => 1,
-            'tahun_ajaran_id' => 1
+            'tahun_ajaran_id' => null
         ]
     ];
     
@@ -136,78 +136,18 @@ try {
             echo "  ❌ Error processing user {$user['username']}: " . $e->getMessage() . "\n";
         }
     }
-            ],
-            [
-                'username' => 'guru1',
-                'email' => 'guru1@sekolah.id',
-                'password' => password_hash('password123', PASSWORD_DEFAULT),
-                'role' => 'guru_mapel',
-                'full_name' => 'Siti Rahayu, S.Pd',
-                'nip' => '19800515 200604 2 002'
-            ],
-            [
-                'username' => 'wali1',
-                'email' => 'wali1@sekolah.id',
-                'password' => password_hash('password123', PASSWORD_DEFAULT),
-                'role' => 'wali_kelas',
-                'full_name' => 'Budi Santoso, S.Pd',
-                'nip' => '19750820 199803 1 003'
-            ],
-            [
-                'username' => 'bk1',
-                'email' => 'bk1@sekolah.id',
-                'password' => password_hash('password123', PASSWORD_DEFAULT),
-                'role' => 'guru_bk',
-                'full_name' => 'Rina Wijaya, S.Psi',
-                'nip' => '19850310 200912 2 004'
-            ],
-            [
-                'username' => 'mapel1',
-                'email' => 'mapel1@sekolah.id',
-                'password' => password_hash('password123', PASSWORD_DEFAULT),
-                'role' => 'guru_mapel',
-                'full_name' => 'Joko Wahyudi, S.Pd',
-                'nip' => '19780625 200103 1 005'
-            ]
-        ];
-        
-        $stmt = $pdo->prepare("
-            INSERT INTO users (username, email, password, role, full_name, nip, is_active, created_at, updated_at) 
-            VALUES (?, ?, ?, ?, ?, ?, 1, NOW(), NOW())
-        ");
-        
-        foreach ($demoUsers as $user) {
-            try {
-                $stmt->execute([
-                    $user['username'],
-                    $user['email'],
-                    $user['password'],
-                    $user['role'],
-                    $user['full_name'],
-                    $user['nip']
-                ]);
-                echo "  ✅ Created user: {$user['username']} ({$user['role']}) - {$user['full_name']}\n";
-            } catch (PDOException $e) {
-                if ($e->getCode() == 23000) { // Duplicate entry
-                    echo "  ⚠️  User {$user['username']} already exists\n";
-                } else {
-                    echo "  ❌ Error creating user {$user['username']}: " . $e->getMessage() . "\n";
-                }
-            }
-        }
-    }
     
     echo "\n🎉 Demo setup complete!\n";
-    echo "You can now test login with:\n";
-    echo "  Username: admin / Password: password123 (Kepala Sekolah)\n";
-    echo "  Username: guru1 / Password: password123 (Guru Mapel)\n";
-    echo "  Username: wali1 / Password: password123 (Wali Kelas)\n";
-    echo "  Username: bk1 / Password: password123 (Guru BK)\n";
-    echo "  Username: mapel1 / Password: password123 (Guru Mapel)\n";
+    echo "=== AKUN DEMO GURU ===\n";
+    echo "Username: demo_guru / Password: demo123\n";
+    echo "Username: guru_demo / Password: password123\n";
+    echo "Username: admin_guru / Password: admin123\n\n";
+    echo "Login di: http://localhost/smartbk/app-guru/public/login\n";
+    echo "Atau: http://[your-domain]/smartbk/app-guru/public/login\n";
     
 } catch (PDOException $e) {
     echo "❌ Database connection failed: " . $e->getMessage() . "\n";
-    echo "Please make sure MySQL is running and database '$dbname' exists.\n";
+    echo "Please check database configuration in .env file.\n";
     exit(1);
 }
 ?>

@@ -80,12 +80,27 @@
     <div class="demo-section">
         <h6 class="demo-title">
             <i class="fas fa-users me-2"></i>
-            Akun Demo
+            Akun Demo Guru
         </h6>
+        
+        <div class="demo-accounts">
+            <div class="demo-account">
+                <strong>Username:</strong> demo_guru<br>
+                <strong>Password:</strong> demo123
+            </div>
+            <div class="demo-account">
+                <strong>Username:</strong> guru_demo<br>
+                <strong>Password:</strong> password123
+            </div>
+            <div class="demo-account">
+                <strong>Username:</strong> admin_guru<br>
+                <strong>Password:</strong> admin123
+            </div>
+        </div>
         
         <div class="demo-note">
             <i class="fas fa-info-circle me-1"></i>
-            Tersedia akun demo untuk testing sistem
+            Gunakan salah satu akun di atas untuk testing sistem
         </div>
     </div>
     
