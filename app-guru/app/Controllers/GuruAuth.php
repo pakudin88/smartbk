@@ -135,7 +135,7 @@ class GuruAuth extends BaseController
         try {
             $db = \Config\Database::connect();
             $user_id = $this->session->get('user_id');
-            $tahun_ajaran_id = $this->session->get('tahun_ajaran_id');
+            $tahun_ajaran_id = $this->session->get('tahun_ajaran_id') ?? 1; // Default fallback
             
             $stats = [
                 'total_siswa' => 0,
@@ -153,14 +153,20 @@ class GuruAuth extends BaseController
             
             // Hitung total kelas
             if ($db->tableExists('kelas')) {
-                $query = $db->query("SELECT COUNT(*) as total FROM kelas WHERE tahun_ajaran_id = ?", [$tahun_ajaran_id]);
+                $query = $db->query("SELECT COUNT(*) as total FROM kelas WHERE tahun_ajaran_id = ? AND status = 'aktif'", [$tahun_ajaran_id]);
                 $result = $query->getRow();
                 $stats['total_kelas'] = $result->total ?? 0;
             }
             
-            // Hitung total orang tua
-            if ($db->tableExists('orang_tua')) {
-                $query = $db->query("SELECT COUNT(*) as total FROM orang_tua WHERE is_active = 1 AND tahun_ajaran_id = ?", [$tahun_ajaran_id]);
+            // Hitung total orang tua (menggunakan tabel users dengan role orang tua jika ada, atau tabel khusus)
+            if ($db->tableExists('users')) {
+                // Coba dengan role_id untuk orang tua (asumsi role_id = 4)
+                $query = $db->query("SELECT COUNT(*) as total FROM users WHERE role_id = 4 AND is_active = 1", []);
+                $result = $query->getRow();
+                $stats['total_orang_tua'] = $result->total ?? 0;
+            } elseif ($db->tableExists('orang_tua')) {
+                // Fallback ke tabel orang_tua jika ada
+                $query = $db->query("SELECT COUNT(*) as total FROM orang_tua WHERE is_active = 1", []);
                 $result = $query->getRow();
                 $stats['total_orang_tua'] = $result->total ?? 0;
             }
@@ -173,7 +179,7 @@ class GuruAuth extends BaseController
                 'total_siswa' => 0,
                 'total_kelas' => 0,
                 'total_orang_tua' => 0,
-                'active_tahun_ajaran' => 0
+                'active_tahun_ajaran' => 1
             ];
         }
     }
@@ -183,30 +189,42 @@ class GuruAuth extends BaseController
     {
         $db = \Config\Database::connect();
         
-        // Check if user is a class teacher (wali kelas)
-        $waliKelasQuery = $db->query("SELECT COUNT(*) as count FROM kelas WHERE wali_kelas_id = ?", [$user->id]);
-        $isWaliKelas = $waliKelasQuery->getRow()->count > 0;
-        
-        // Check if user is BK teacher (based on subject or specific field)
-        $bkQuery = $db->query("SELECT COUNT(*) as count FROM mata_pelajaran mp 
-                              JOIN guru_mata_pelajaran gmp ON mp.id = gmp.mata_pelajaran_id 
-                              WHERE gmp.guru_id = ? AND (mp.nama LIKE '%BK%' OR mp.nama LIKE '%Konseling%')", [$user->id]);
-        $isBK = $bkQuery->getRow()->count > 0;
-        
-        // Check if user is headmaster (based on role or specific field)
-        $headmasterQuery = $db->query("SELECT jabatan FROM guru WHERE user_id = ?", [$user->id]);
-        $guruData = $headmasterQuery->getRow();
-        $isHeadmaster = $guruData && (strpos(strtolower($guruData->jabatan), 'kepala') !== false);
-        
-        // Determine specific role
-        if ($isHeadmaster) {
-            return 'kepala_sekolah';
-        } elseif ($isBK) {
-            return 'guru_bk';
-        } elseif ($isWaliKelas) {
-            return 'wali_kelas';
-        } else {
-            return 'guru_mapel';
+        try {
+            // Check if user is a class teacher (wali kelas) based on kelas_id in users table
+            $isWaliKelas = !empty($user->kelas_id);
+            
+            // Check if user is BK teacher (based on subject or specific field)
+            if ($db->tableExists('mata_pelajaran') && $db->tableExists('guru_mata_pelajaran')) {
+                $bkQuery = $db->query("SELECT COUNT(*) as count FROM mata_pelajaran mp 
+                                      JOIN guru_mata_pelajaran gmp ON mp.id = gmp.mata_pelajaran_id 
+                                      WHERE gmp.user_id = ? AND (mp.nama_mapel LIKE '%BK%' OR mp.nama_mapel LIKE '%Konseling%' OR mp.nama_mapel LIKE '%Bimbingan%')", [$user->id]);
+                $isBK = $bkQuery->getRow()->count > 0;
+            } else {
+                $isBK = false;
+            }
+            
+            // Check if user is headmaster (based on role or specific field in guru_profiles)
+            $isHeadmaster = false;
+            if ($db->tableExists('guru_profiles')) {
+                $headmasterQuery = $db->query("SELECT specialization FROM guru_profiles WHERE user_id = ?", [$user->id]);
+                $guruData = $headmasterQuery->getRow();
+                $isHeadmaster = $guruData && (strpos(strtolower($guruData->specialization ?? ''), 'kepala') !== false);
+            }
+            
+            // Determine specific role
+            if ($isHeadmaster) {
+                return 'kepala_sekolah';
+            } elseif ($isBK) {
+                return 'guru_bk';
+            } elseif ($isWaliKelas) {
+                return 'wali_kelas';
+            } else {
+                return 'guru_mapel';
+            }
+            
+        } catch (Exception $e) {
+            log_message('error', 'Error determining user role: ' . $e->getMessage());
+            return 'guru_mapel'; // Default role
         }
     }
 }
