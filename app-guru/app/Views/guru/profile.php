@@ -12,7 +12,7 @@
             <p class="page-subtitle">Kelola informasi profil dan pengaturan akun Anda</p>
         </div>
         <div class="col-md-4 text-end">
-            <a href="/dashboard" class="btn btn-outline-secondary">
+            <a href="<?= base_url('/dashboard') ?>" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Kembali ke Dashboard
             </a>
         </div>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Start Servers - SmartBK</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px auto;
+        }
+        .step-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+        .cmd-box {
+            background: #212529;
+            color: #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .test-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-running { background: #28a745; }
+        .status-stopped { background: #dc3545; }
+        .status-unknown { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-rocket me-3"></i>Start SmartBK Servers
+        </h1>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Sistem Folder-Based URLs:</strong> URL tetap sesuai struktur folder, tanpa redirect ke port!
+        </div>
+        
+        <!-- Step 1 -->
+        <div class="step-card">
+            <h3><i class="fas fa-terminal me-2"></i>Step 1: Start App-Guru Server</h3>
+            <p>Buka Command Prompt atau PowerShell, jalankan:</p>
+            <div class="cmd-box">
+cd c:\xampp\htdocs\smartbk\app-guru<br>
+php spark serve --port=8081
+            </div>
+            <p><strong>Tunggu hingga muncul:</strong> <code>CodeIgniter development server started: http://localhost:8081</code></p>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="step-card">
+            <h3><i class="fas fa-terminal me-2"></i>Step 2: Start App-Ortu Server</h3>
+            <p>Buka Command Prompt atau PowerShell kedua, jalankan:</p>
+            <div class="cmd-box">
+cd c:\xampp\htdocs\smartbk\app-ortu<br>
+php spark serve --port=8080
+            </div>
+            <p><strong>Tunggu hingga muncul:</strong> <code>CodeIgniter development server started: http://localhost:8080</code></p>
+        </div>
+        
+        <!-- Status Check -->
+        <div class="step-card">
+            <h3><i class="fas fa-heartbeat me-2"></i>Step 3: Verify Server Status</h3>
+            <p>Check apakah kedua server sudah berjalan:</p>
+            
+            <div id="serverStatus">
+                <p><span class="status-indicator status-unknown"></span><strong>App-Guru (Port 8081):</strong> <span id="guru-status">Checking...</span></p>
+                <p><span class="status-indicator status-unknown"></span><strong>App-Ortu (Port 8080):</strong> <span id="ortu-status">Checking...</span></p>
+            </div>
+            
+            <button class="test-btn" onclick="checkServers()">
+                <i class="fas fa-sync me-1"></i>Check Server Status
+            </button>
+        </div>
+        
+        <!-- Test URLs -->
+        <div class="step-card">
+            <h3><i class="fas fa-link me-2"></i>Step 4: Test Folder-Based URLs</h3>
+            <p>Setelah kedua server berjalan, test URL berikut:</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>🏫 Portal Guru</h5>
+                    <p><strong>URL:</strong> <code>/smartbk/app-guru/public</code></p>
+                    <a href="/smartbk/app-guru/public" class="test-btn" target="_blank">
+                        <i class="fas fa-external-link-alt me-1"></i>Test App-Guru
+                    </a>
+                </div>
+                
+                <div class="col-md-6">
+                    <h5>👨‍👩‍👧‍👦 Portal Orang Tua</h5>
+                    <p><strong>URL:</strong> <code>/smartbk/app-ortu/public</code></p>
+                    <a href="/smartbk/app-ortu/public" class="test-btn" target="_blank">
+                        <i class="fas fa-external-link-alt me-1"></i>Test App-Ortu
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Success Indicators -->
+        <div class="step-card">
+            <h3><i class="fas fa-check-circle me-2"></i>Success Indicators</h3>
+            <ul>
+                <li>✅ URL tetap menampilkan <code>/smartbk/app-guru/public</code></li>
+                <li>✅ Tidak ada redirect ke localhost:8081</li>
+                <li>✅ Halaman login atau dashboard muncul</li>
+                <li>✅ Konten load dengan sempurna</li>
+            </ul>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="step-card">
+            <h3><i class="fas fa-wrench me-2"></i>Troubleshooting</h3>
+            
+            <h5>Problem: "Server not responding"</h5>
+            <p>Pastikan server CodeIgniter sudah berjalan di terminal</p>
+            
+            <h5>Problem: "Port already in use"</h5>
+            <div class="cmd-box">
+taskkill /f /im php.exe<br>
+# Kemudian start server lagi
+            </div>
+            
+            <h5>Problem: "Still showing redirect"</h5>
+            <p>Check apakah .env file sudah benar:</p>
+            <ul>
+                <li><strong>app-guru/.env:</strong> <code>app.baseURL = 'http://localhost:8081/'</code></li>
+                <li><strong>app-ortu/.env:</strong> <code>app.baseURL = 'http://localhost:8080/'</code></li>
+            </ul>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="text-center mt-4">
+            <a href="/smartbk/debug-system.php" class="test-btn">
+                <i class="fas fa-bug me-1"></i>Debug System
+            </a>
+            <a href="/smartbk" class="test-btn">
+                <i class="fas fa-home me-1"></i>Main Portal
+            </a>
+            <a href="/smartbk/test-folder-urls.html" class="test-btn">
+                <i class="fas fa-vial me-1"></i>Test URLs
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        async function checkServers() {
+            const guruStatus = document.getElementById('guru-status');
+            const ortuStatus = document.getElementById('ortu-status');
+            
+            // Reset status
+            guruStatus.textContent = 'Checking...';
+            ortuStatus.textContent = 'Checking...';
+            
+            // Check app-guru
+            try {
+                const guruResponse = await fetch('/smartbk/app-loader.php?app=app-guru');
+                if (guruResponse.ok) {
+                    guruStatus.textContent = '✅ Running';
+                    guruStatus.previousElementSibling.className = 'status-indicator status-running';
+                } else {
+                    guruStatus.textContent = '❌ Not responding';
+                    guruStatus.previousElementSibling.className = 'status-indicator status-stopped';
+                }
+            } catch (e) {
+                guruStatus.textContent = '❌ Error: ' + e.message;
+                guruStatus.previousElementSibling.className = 'status-indicator status-stopped';
+            }
+            
+            // Check app-ortu
+            try {
+                const ortuResponse = await fetch('/smartbk/app-loader.php?app=app-ortu');
+                if (ortuResponse.ok) {
+                    ortuStatus.textContent = '✅ Running';
+                    ortuStatus.previousElementSibling.className = 'status-indicator status-running';
+                } else {
+                    ortuStatus.textContent = '❌ Not responding';
+                    ortuStatus.previousElementSibling.className = 'status-indicator status-stopped';
+                }
+            } catch (e) {
+                ortuStatus.textContent = '❌ Error: ' + e.message;
+                ortuStatus.previousElementSibling.className = 'status-indicator status-stopped';
+            }
+        }
+        
+        // Auto-check on load
+        window.addEventListener('load', checkServers);
+    </script>
+</body>
+</html>

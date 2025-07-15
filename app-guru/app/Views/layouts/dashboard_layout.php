@@ -299,7 +299,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <a href="/dashboard" class="header-brand">
+                        <a href="<?= base_url('/dashboard') ?>" class="header-brand">
                             <div class="brand-icon">
                                 <i class="fas fa-chalkboard-teacher"></i>
                             </div>
@@ -318,10 +318,10 @@
                                 </div>
                             </div>
                             <div class="header-actions">
-                                <a href="/profile" class="btn-header">
+                                <a href="<?= base_url('/profile') ?>" class="btn-header">
                                     <i class="fas fa-user-cog me-1"></i>Profil
                                 </a>
-                                <a href="/logout" class="btn-header">
+                                <a href="<?= base_url('/logout') ?>" class="btn-header">
                                     <i class="fas fa-sign-out-alt me-1"></i>Logout
                                 </a>
                             </div>

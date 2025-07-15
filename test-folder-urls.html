@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Folder-Based URLs - Smart BookKeeping</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .test-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-title {
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #48bb78;
+        }
+        
+        .test-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .test-link {
+            color: #2d3748;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .test-link:hover {
+            color: #667eea;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+            color: white;
+        }
+        
+        .url-structure {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th {
+            background: #48bb78;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .correct {
+            background: #c6f6d5;
+        }
+        
+        .wrong {
+            background: #fed7d7;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">
+            <i class="fas fa-folder me-3"></i>Test Folder-Based URLs
+        </h1>
+        
+        <!-- Highlight Box -->
+        <div class="highlight-box">
+            <h3><i class="fas fa-check-circle me-2"></i>URL SESUAI STRUKTUR FOLDER!</h3>
+            <p class="mb-0">URL mengikuti struktur folder asli - dinamis berdasarkan php spark serve</p>
+        </div>
+        
+        <!-- URL Structure -->
+        <div class="test-section">
+            <h3><i class="fas fa-sitemap me-2"></i>Struktur URL yang Benar</h3>
+            
+            <div class="url-structure">
+/smartbk/app-guru/public         ← Portal Guru<br>
+/smartbk/app-ortu/public         ← Portal Orang Tua<br>
+/smartbk/app-superadmin/public   ← Portal Super Admin
+            </div>
+            
+            <div class="alert alert-success">
+                <i class="fas fa-lightbulb me-2"></i>
+                <strong>Konsep:</strong> URL tetap sesuai struktur folder, tapi sistem dinamis membaca konfigurasi .env 
+                untuk menentukan server mana yang akan di-proxy berdasarkan php spark serve
+            </div>
+        </div>
+        
+        <!-- Test URLs -->
+        <div class="test-section">
+            <h3><i class="fas fa-link me-2"></i>Test Folder-Based URLs</h3>
+            
+            <div class="test-item">
+                <div>
+                    <a href="/smartbk/app-guru/public" class="test-link" target="_blank">Portal Guru</a>
+                    <br><small class="text-muted">/smartbk/app-guru/public → proxy ke .env baseURL</small>
+                </div>
+                <a href="/smartbk/app-guru/public" class="test-btn" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Test
+                </a>
+            </div>
+            
+            <div class="test-item">
+                <div>
+                    <a href="/smartbk/app-ortu/public" class="test-link" target="_blank">Portal Orang Tua</a>
+                    <br><small class="text-muted">/smartbk/app-ortu/public → proxy ke .env baseURL</small>
+                </div>
+                <a href="/smartbk/app-ortu/public" class="test-btn" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Test
+                </a>
+            </div>
+            
+            <div class="test-item">
+                <div>
+                    <a href="/smartbk/app-superadmin/public" class="test-link" target="_blank">Portal Super Admin</a>
+                    <br><small class="text-muted">/smartbk/app-superadmin/public → proxy ke .env baseURL</small>
+                </div>
+                <a href="/smartbk/app-superadmin/public" class="test-btn" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Test
+                </a>
+            </div>
+        </div>
+        
+        <!-- How It Works -->
+        <div class="test-section">
+            <h3><i class="fas fa-cogs me-2"></i>Cara Kerja Sistem</h3>
+            
+            <div class="alert alert-info">
+                <strong>Flow Process:</strong>
+                <ol class="mb-0 mt-2">
+                    <li>User akses <code>/smartbk/app-guru/public</code></li>
+                    <li>.htaccess route ke <code>app-loader.php?app=app-guru</code></li>
+                    <li>app-loader.php baca <code>app-guru/.env</code></li>
+                    <li>Ambil <code>app.baseURL</code> (contoh: localhost:8081)</li>
+                    <li>Proxy request ke server yang sedang running</li>
+                    <li>Return content langsung tanpa redirect</li>
+                    <li><strong>URL tetap sesuai folder structure</strong></li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Comparison -->
+        <div class="test-section">
+            <h3><i class="fas fa-balance-scale me-2"></i>Perbandingan URL Structure</h3>
+            
+            <table class="table comparison-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>URL Format</th>
+                        <th>Status</th>
+                        <th>Sesuai Request</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="wrong">
+                        <td><strong>Redirect ke Port</strong></td>
+                        <td>localhost:8081</td>
+                        <td>❌ Port terlihat</td>
+                        <td>❌ Tidak sesuai</td>
+                    </tr>
+                    <tr class="wrong">
+                        <td><strong>Short URLs</strong></td>
+                        <td>/smartbk/guru</td>
+                        <td>❌ Tidak sesuai folder</td>
+                        <td>❌ Tidak sesuai</td>
+                    </tr>
+                    <tr class="correct">
+                        <td><strong>Folder-Based</strong></td>
+                        <td>/smartbk/app-guru/public</td>
+                        <td>✅ Sesuai struktur folder</td>
+                        <td>✅ Sesuai request!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Configuration -->
+        <div class="test-section">
+            <h3><i class="fas fa-cog me-2"></i>Dynamic Configuration</h3>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>app-guru/.env</h5>
+                    <div class="url-structure">app.baseURL = 'http://localhost:8081/'</div>
+                    <p><small>php spark serve --port=8081</small></p>
+                </div>
+                
+                <div class="col-md-4">
+                    <h5>app-ortu/.env</h5>
+                    <div class="url-structure">app.baseURL = 'http://localhost:8080/'</div>
+                    <p><small>php spark serve --port=8080</small></p>
+                </div>
+                
+                <div class="col-md-4">
+                    <h5>Custom Port Example</h5>
+                    <div class="url-structure">app.baseURL = 'http://localhost:9001/'</div>
+                    <p><small>Flexible port management</small></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Benefits -->
+        <div class="test-section">
+            <h3><i class="fas fa-star me-2"></i>Keuntungan Sistem Ini</h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-folder text-success me-2"></i>URL Structure</h5>
+                    <ul>
+                        <li>Sesuai dengan struktur folder asli</li>
+                        <li>Mudah diingat dan dipahami</li>
+                        <li>Konsisten dengan naming convention</li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-6">
+                    <h5><i class="fas fa-cogs text-success me-2"></i>Dynamic System</h5>
+                    <ul>
+                        <li>Port bisa diganti di .env</li>
+                        <li>Tidak hardcode ke port tertentu</li>
+                        <li>php spark serve flexibility</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Usage Instructions -->
+        <div class="test-section">
+            <h3><i class="fas fa-play me-2"></i>Cara Penggunaan</h3>
+            
+            <div class="url-structure">
+# 1. Start servers with php spark serve<br>
+cd app-guru<br>
+php spark serve --port=8081<br><br>
+cd app-ortu<br>
+php spark serve --port=8080<br><br>
+# 2. Access with folder URLs<br>
+http://localhost/smartbk/app-guru/public<br>
+http://localhost/smartbk/app-ortu/public<br><br>
+# 3. URL tetap sesuai folder structure!
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('Folder-Based URL System Active');
+        console.log('URL Structure:');
+        console.log('- /smartbk/app-guru/public → app-guru server');
+        console.log('- /smartbk/app-ortu/public → app-ortu server');
+        console.log('- /smartbk/app-superadmin/public → app-superadmin server');
+        console.log('Dynamic configuration from .env files');
+    </script>
+</body>
+</html>

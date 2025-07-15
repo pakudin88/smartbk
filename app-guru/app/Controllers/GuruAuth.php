@@ -16,11 +16,11 @@ class GuruAuth extends BaseController
     {
         // Jika sudah login, redirect ke dashboard
         if ($this->session->get('guru_logged_in')) {
-            return redirect()->to('/dashboard');
+            return redirect()->to(base_url('/dashboard'));
         }
         
         // Jika belum login, redirect ke halaman login
-        return redirect()->to('/login');
+        return redirect()->to(base_url('/login'));
     }
     
     // Halaman login guru
@@ -28,7 +28,7 @@ class GuruAuth extends BaseController
     {
         // Jika sudah login, redirect ke dashboard
         if ($this->session->get('guru_logged_in')) {
-            return redirect()->to('/dashboard');
+            return redirect()->to(base_url('/dashboard'));
         }
         
         $data = [
@@ -74,7 +74,7 @@ class GuruAuth extends BaseController
             // Update last login
             $db->query("UPDATE users SET last_login = NOW() WHERE id = ?", [$user->id]);
             
-            return redirect()->to('/dashboard')->with('success', 'Login berhasil! Selamat datang, ' . $user->full_name);
+            return redirect()->to(base_url('/dashboard'))->with('success', 'Login berhasil! Selamat datang, ' . $user->full_name);
         } else {
             return redirect()->back()->withInput()->with('error', 'Username atau password salah. Pastikan Anda terdaftar sebagai guru.');
         }
@@ -84,7 +84,7 @@ class GuruAuth extends BaseController
     public function dashboard()
     {
         if (!$this->session->get('guru_logged_in')) {
-            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->to(base_url('/login'))->with('error', 'Silakan login terlebih dahulu.');
         }
         
         // Ambil statistik untuk dashboard
@@ -106,7 +106,7 @@ class GuruAuth extends BaseController
     public function profile()
     {
         if (!$this->session->get('guru_logged_in')) {
-            return redirect()->to('/login');
+            return redirect()->to(base_url('/login'));
         }
         
         $data = [
@@ -123,7 +123,7 @@ class GuruAuth extends BaseController
     public function logout()
     {
         $this->session->destroy();
-        return redirect()->to('/login')->with('success', 'Anda telah logout dari sistem.');
+        return redirect()->to(base_url('/login'))->with('success', 'Anda telah logout dari sistem.');
     }
     
     // Helper: Ambil statistik dashboard

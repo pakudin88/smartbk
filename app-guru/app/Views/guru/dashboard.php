@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-4 text-end">
             <div class="btn-group" role="group">
-                <a href="/profile" class="btn btn-outline-primary">
+                <a href="<?= base_url('/profile') ?>" class="btn btn-outline-primary">
                     <i class="fas fa-user me-2"></i>Profil
                 </a>
                 <a href="#" class="btn btn-outline-secondary">
@@ -253,7 +253,7 @@
                 <hr>
                 
                 <div class="text-center">
-                    <a href="/profile" class="btn btn-sm btn-outline-primary">
+                    <a href="<?= base_url('/profile') ?>" class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-user-cog me-1"></i>Edit Profil
                     </a>
                 </div>

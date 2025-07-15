@@ -33,7 +33,7 @@
         </div>
     <?php endif; ?>
     
-    <?= form_open('/authenticate', ['class' => 'auth-form']) ?>
+    <?= form_open(base_url('/authenticate'), ['class' => 'auth-form']) ?>
         
         <div class="form-group">
             <label for="username" class="form-label">

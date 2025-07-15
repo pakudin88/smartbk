@@ -1,0 +1,76 @@
+# Smart BookKeeping - Dynamic App Loader
+# Routes folder-based URLs to their respective applications dynamically
+
+RewriteEngine On
+
+# Security headers
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-XSS-Protection "1; mode=block"
+
+# Route app-guru requests dynamically
+RewriteRule ^app-guru/public/?(.*)$ app-loader.php?app=app-guru&subpath=$1 [L,QSA]
+RewriteRule ^app-guru/?(.*)$ app-loader.php?app=app-guru&subpath=$1 [L,QSA]
+
+# Route app-ortu requests dynamically  
+RewriteRule ^app-ortu/public/?(.*)$ app-loader.php?app=app-ortu&subpath=$1 [L,QSA]
+RewriteRule ^app-ortu/?(.*)$ app-loader.php?app=app-ortu&subpath=$1 [L,QSA]
+
+# Route app-superadmin requests dynamically
+RewriteRule ^app-superadmin/public/?(.*)$ app-loader.php?app=app-superadmin&subpath=$1 [L,QSA]
+RewriteRule ^app-superadmin/?(.*)$ app-loader.php?app=app-superadmin&subpath=$1 [L,QSA]
+
+# Default routing - if no specific app folder is accessed, show main portal
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/(app-guru|app-ortu|app-superadmin)
+RewriteRule ^(.*)$ index.html [L]
+
+# API routing for different apps
+RewriteRule ^api/guru/?(.*)$ http://localhost:8081/api/$1 [R=301,L]
+RewriteRule ^api/ortu/?(.*)$ http://localhost:8080/api/$1 [R=301,L]
+RewriteRule ^api/admin/?(.*)$ http://localhost:8082/api/$1 [R=301,L]
+
+# Default routing - if no specific folder is accessed, show main portal
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/(guru|ortu|admin|app-guru|app-ortu|app-superadmin|teacher|parent|superadmin|api)
+RewriteRule ^(.*)$ index.html [L]
+
+# Handle direct file access
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule . - [L]
+
+# Enable compression for better performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Set cache headers for static files
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/ico "access plus 1 year"
+    ExpiresByType image/icon "access plus 1 year"
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# Error pages
+ErrorDocument 404 /error-404.html
+ErrorDocument 500 /error-500.html
