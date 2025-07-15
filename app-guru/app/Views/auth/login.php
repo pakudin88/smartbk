@@ -110,8 +110,16 @@
                         </td>
                         <td><code class="demo-password">password123</code></td>
                         <td>
-                            <span class="role-badge role-<?= strtolower($user['role']) ?>">
-                                <?= ucfirst($user['role']) ?>
+                            <span class="role-badge role-<?= strtolower(str_replace('_', '-', $user['role'])) ?>">
+                                <?php 
+                                    $roleNames = [
+                                        'guru_mapel' => 'Guru Mapel',
+                                        'wali_kelas' => 'Wali Kelas', 
+                                        'guru_bk' => 'Guru BK',
+                                        'kepala_sekolah' => 'Kepala Sekolah'
+                                    ];
+                                    echo $roleNames[$user['role']] ?? ucfirst(str_replace('_', ' ', $user['role']));
+                                ?>
                             </span>
                         </td>
                     </tr>

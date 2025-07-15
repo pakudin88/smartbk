@@ -341,13 +341,23 @@
             letter-spacing: 0.5px;
         }
         
-        .role-admin {
+        .role-kepala-sekolah {
             background: linear-gradient(135deg, #dc2626, #b91c1c);
             color: white;
         }
         
-        .role-teacher, .role-guru {
+        .role-guru-mapel {
             background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+        }
+        
+        .role-wali-kelas {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+        }
+        
+        .role-guru-bk {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
             color: white;
         }
         

@@ -35,14 +35,15 @@ class GuruAuth extends BaseController
         $demoUsers = [];
         try {
             $db = \Config\Database::connect();
-            $query = $db->query("SELECT username, role, full_name FROM users WHERE status = 'active' AND role IN ('teacher', 'guru', 'admin') LIMIT 5");
+            $query = $db->query("SELECT username, role, full_name FROM users WHERE is_active = 1 LIMIT 5");
             $demoUsers = $query->getResultArray();
         } catch (\Exception $e) {
             // Default demo users if database query fails
             $demoUsers = [
-                ['username' => 'admin', 'role' => 'admin', 'full_name' => 'Administrator'],
-                ['username' => 'guru1', 'role' => 'teacher', 'full_name' => 'Guru Demo 1'],
-                ['username' => 'teacher', 'role' => 'teacher', 'full_name' => 'Teacher Demo']
+                ['username' => 'admin', 'role' => 'kepala_sekolah', 'full_name' => 'Kepala Sekolah'],
+                ['username' => 'guru1', 'role' => 'guru_mapel', 'full_name' => 'Guru Mata Pelajaran'],
+                ['username' => 'wali1', 'role' => 'wali_kelas', 'full_name' => 'Wali Kelas 7A'],
+                ['username' => 'bk1', 'role' => 'guru_bk', 'full_name' => 'Guru BK']
             ];
         }
         
@@ -70,9 +71,9 @@ class GuruAuth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         
-        // Check user in users table with role_id = 2 (guru)
+        // Check user in users table - semua role diperbolehkan login sebagai guru
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT * FROM users WHERE username = ? AND role_id = 2 AND is_active = 1", [$username]);
+        $query = $db->query("SELECT * FROM users WHERE username = ? AND is_active = 1", [$username]);
         $user = $query->getRow();
         
         if ($user && password_verify($password, $user->password)) {
@@ -83,8 +84,7 @@ class GuruAuth extends BaseController
                 'username' => $user->username,
                 'full_name' => $user->full_name,
                 'email' => $user->email,
-                'role_id' => $user->role_id,
-                'tahun_ajaran_id' => $user->tahun_ajaran_id
+                'role' => $user->role
             ]);
             
             // Update last login
