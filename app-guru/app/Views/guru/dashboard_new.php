@@ -1,562 +1,100 @@
 <?= $this->extend('layouts/dashboard_sidebar_layout') ?>
 
-<?= $this->section('content') ?>
-
-<style>
-/* AdminLTE-inspired Layout Structure */
-:root {
-    /* AdminLTE Color Scheme */
-    --primary-color: #007bff;
-    --primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    --success-color: #28a745;
-    --success-gradient: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-    --warning-color: #ffc107;
-    --warning-gradient: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
-    --info-color: #17a2b8;
-    --info-gradient: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
-    --danger-color: #dc3545;
-    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #bd2130 100%);
-    --secondary-color: #6c757d;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    
-    /* AdminLTE Spacing */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
-    
-    /* AdminLTE Border & Shadow */
-    --border-radius: 0.375rem;
-    --border-radius-lg: 0.5rem;
-    --border-radius-xl: 0.75rem;
-    --border-color: #dee2e6;
-    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --shadow-card: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --shadow-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    
-    /* AdminLTE Transitions */
-    --transition: all 0.15s ease-in-out;
-    --transition-fast: all 0.1s ease-in-out;
-}
-
-/* Override default layout untuk AdminLTE structure */
-.content-card {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.main-header {
-    margin-bottom: 0 !important;
-    border-radius: 0 !important;
-}
-
-/* AdminLTE Content Header */
-.content-header {
-    background: white;
-    padding: 1rem 1.5rem;
-    margin: 0 -24px 1.5rem -24px;
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-}
-
-.content-header h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: var(--dark-color);
-    margin: 0 0 0.5rem 0;
-}
-
-.breadcrumb {
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    font-size: 0.875rem;
-}
-
-.breadcrumb-item {
-    color: var(--secondary-color);
-}
-
-.breadcrumb-item.active {
-    color: var(--primary-color);
-}
-
-/* AdminLTE Main Content */
-.content {
-    padding: 0;
-}
-
-/* AdminLTE Info Box Styles */
-.info-box {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    padding: 1rem;
-    margin-bottom: 1rem;
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
-}
-
-.info-box:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
-}
-
-.info-box-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    height: 70px;
-    border-radius: var(--border-radius);
-    color: white;
-    font-size: 1.75rem;
-    margin-right: 1rem;
-    flex-shrink: 0;
-}
-
-.info-box-content {
-    flex: 1;
-}
-
-.info-box-text {
-    color: var(--secondary-color);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin: 0 0 0.25rem 0;
-}
-
-.info-box-number {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--dark-color);
-    margin: 0;
-    line-height: 1.2;
-}
-
-.info-box-more {
-    margin-top: 0.5rem;
-}
-
-.info-box-more .badge {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-}
-
-/* AdminLTE Small Box (Alternative Style) */
-.small-box {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    position: relative;
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
-}
-
-.small-box:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
-}
-
-.small-box-header {
-    padding: 1.5rem 1rem 0 1rem;
-    position: relative;
-    z-index: 2;
-}
-
-.small-box h3 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem 0;
-    color: white;
-}
-
-.small-box p {
-    font-size: 0.9rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-}
-
-.small-box-icon {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 4rem;
-    color: rgba(255, 255, 255, 0.3);
-    z-index: 1;
-}
-
-.small-box-footer {
-    background: rgba(0, 0, 0, 0.1);
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0.75rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.small-box-footer:hover {
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
-    text-decoration: none;
-}
-
-/* AdminLTE Box Styles */
-.box {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--border-color);
-}
-
-.box-header {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border-color);
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
-
-.box-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--dark-color);
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.box-tools {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.box-body {
-    padding: 1.25rem;
-}
-
-.box-footer {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid var(--border-color);
-    background: var(--light-color);
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-}
-
-/* AdminLTE Button Styles */
-.btn {
-    border-radius: var(--border-radius);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    border: 1px solid transparent;
-    transition: var(--transition);
-}
-
-.btn-app {
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    color: var(--secondary-color);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    transition: var(--transition);
-    min-height: 140px;
-    justify-content: center;
-}
-
-.btn-app:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-.btn-app i {
-    font-size: 2rem;
-    color: var(--primary-color);
-}
-
-.btn-app .btn-app-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.btn-app .btn-app-description {
-    font-size: 0.75rem;
-    color: var(--secondary-color);
-    margin: 0;
-    line-height: 1.3;
-}
-
-/* AdminLTE Timeline */
-.timeline {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 1.75rem;
-    width: 2px;
-    background: var(--border-color);
-}
-
-.timeline-item {
-    position: relative;
-    padding-left: 4rem;
-    margin-bottom: 1.5rem;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: 1.25rem;
-    top: 0.5rem;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    background: var(--primary-color);
-    border: 2px solid white;
-    box-shadow: 0 0 0 2px var(--border-color);
-}
-
-.timeline-content {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    padding: 1rem;
-    border: 1px solid var(--border-color);
-}
-
-.timeline-header {
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 0.5rem;
-}
-
-.timeline-body {
-    color: var(--secondary-color);
-    font-size: 0.875rem;
-    line-height: 1.5;
-}
-
-.timeline-time {
-    font-size: 0.75rem;
-    color: var(--secondary-color);
-    margin-top: 0.5rem;
-}
-
-/* AdminLTE Alert Styles */
-.alert {
-    border-radius: var(--border-radius);
-    border: 1px solid transparent;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-}
-
-.alert-dismissible .btn-close {
-    padding: 0.75rem 1rem;
-}
-
-/* Background Colors for Different Components */
-.bg-primary { background-color: var(--primary-color) !important; }
-.bg-success { background-color: var(--success-color) !important; }
-.bg-warning { background-color: var(--warning-color) !important; }
-.bg-info { background-color: var(--info-color) !important; }
-.bg-danger { background-color: var(--danger-color) !important; }
-
-.bg-gradient-primary { background: var(--primary-gradient) !important; }
-.bg-gradient-success { background: var(--success-gradient) !important; }
-.bg-gradient-warning { background: var(--warning-gradient) !important; }
-.bg-gradient-info { background: var(--info-gradient) !important; }
-.bg-gradient-danger { background: var(--danger-gradient) !important; }
-
-/* Responsive Grid System */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -0.75rem;
-    margin-left: -0.75rem;
-}
-
-.col,
-.col-12,
-.col-lg-3,
-.col-lg-6,
-.col-lg-8,
-.col-lg-4,
-.col-md-6,
-.col-sm-6,
-.col-xl-3 {
-    position: relative;
-    width: 100%;
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
-}
-
-.col-12 { flex: 0 0 100%; max-width: 100%; }
-.col-lg-3 { flex: 0 0 25%; max-width: 25%; }
-.col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
-.col-lg-6 { flex: 0 0 50%; max-width: 50%; }
-.col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
-
-/* Mobile First Responsive Breakpoints */
-@media (max-width: 575.98px) {
-    .col-lg-3,
-    .col-lg-4,
-    .col-lg-6,
-    .col-lg-8,
-    .col-md-6,
-    .col-sm-6 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    
-    .content-header {
-        margin: 0 -16px 1rem -16px;
-        padding: 0.75rem 1rem;
-    }
-    
-    .content-header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .btn-app {
-        min-height: 120px;
-        padding: 1rem 0.75rem;
-    }
-    
-    .btn-app i {
-        font-size: 1.5rem;
-    }
-    
-    .info-box {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem 1rem;
-    }
-    
-    .info-box-icon {
-        margin-right: 0;
-        margin-bottom: 1rem;
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-    }
-    
-    .info-box-number {
-        font-size: 1.5rem;
-    }
-}
-
-@media (min-width: 576px) and (max-width: 767.98px) {
-    .col-sm-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-}
-
-@media (min-width: 992px) {
-    .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
-    .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
-    .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
-    .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
-}
-
-/* Utility Classes */
-.mb-0 { margin-bottom: 0 !important; }
-.mb-1 { margin-bottom: 0.25rem !important; }
-.mb-2 { margin-bottom: 0.5rem !important; }
-.mb-3 { margin-bottom: 1rem !important; }
-.mb-4 { margin-bottom: 1.5rem !important; }
-.mb-5 { margin-bottom: 3rem !important; }
-
-.mt-0 { margin-top: 0 !important; }
-.mt-1 { margin-top: 0.25rem !important; }
-.mt-2 { margin-top: 0.5rem !important; }
-.mt-3 { margin-top: 1rem !important; }
-.mt-4 { margin-top: 1.5rem !important; }
-.mt-5 { margin-top: 3rem !important; }
-
-.text-center { text-align: center !important; }
-.text-left { text-align: left !important; }
-.text-right { text-align: right !important; }
-
-.d-flex { display: flex !important; }
-.align-items-center { align-items: center !important; }
-.justify-content-between { justify-content: space-between !important; }
-.justify-content-center { justify-content: center !important; }
-
-.text-primary { color: var(--primary-color) !important; }
-.text-success { color: var(--success-color) !important; }
-.text-warning { color: var(--warning-color) !important; }
-.text-info { color: var(--info-color) !important; }
-.text-danger { color: var(--danger-color) !important; }
-.text-muted { color: var(--secondary-color) !important; }
-
-</style>
-
-<!-- Modern Dashboard Header -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row align-items-center mb-4">
-            <div class="col-sm-8">
-                <h1 class="mb-0" style="font-size: 2rem; font-weight: 300; color: #495057;">Dashboard Guru</h1>
-                <p class="text-muted mb-0">Selamat datang kembali, <?= esc($user_name) ?>! Berikut ringkasan aktivitas hari ini.</p>
+<?= $this->section('header') ?>
+<!-- Fixed Top Header -->
+<div class="fixed-header bg-white shadow-sm border-bottom">
+    <div class="container-fluid px-4">
+        <div class="row align-items-center" style="height: 70px;">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <!-- Hamburger Menu Button -->
+                    <button class="btn btn-light me-3 d-flex align-items-center justify-content-center" 
+                            id="sidebarToggle" 
+                            style="width: 40px; height: 40px; border-radius: 8px;">
+                        <span class="navbar-toggler-icon-custom">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+                    
+                    <h5 class="mb-0 text-primary fw-bold">
+                        <i class="fas fa-graduation-cap me-2"></i>SmartBK Dashboard
+                    </h5>
+                </div>
             </div>
-            <div class="col-sm-4 text-end">
-                <div class="d-flex justify-content-end gap-2">
-                    <button class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-download me-1"></i>Export
-                    </button>
-                    <button class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus me-1"></i>Tambah Data
-                    </button>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-end">
+                    <!-- Notifications -->
+                    <div class="dropdown me-3">
+                        <button class="btn btn-light position-relative rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px;">
+                            <i class="fas fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                3
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">Notifikasi</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus me-2"></i>Siswa baru terdaftar</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i>Jadwal konseling hari ini</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-exclamation-triangle me-2"></i>Kasus prioritas</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- User Profile -->
+                    <div class="dropdown">
+                        <button class="btn btn-light text-decoration-none d-flex align-items-center rounded-pill px-3" type="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar me-2">
+                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($user_name ?? 'Guru BK') ?>&background=4A90E2&color=fff&size=32" 
+                                     alt="Profile" class="rounded-circle" width="32" height="32">
+                            </div>
+                            <div class="user-info text-start d-none d-md-block">
+                                <div class="user-name text-dark fw-medium" style="font-size: 0.9rem;">
+                                    <?= esc($user_name ?? 'Guru BK') ?>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down ms-2 text-muted" style="font-size: 0.7rem;"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="<?= base_url('/profile') ?>"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="<?= base_url('/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
 
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-            
+<?= $this->section('content') ?>
+
+<!-- Content Wrapper -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard v3</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item active">Dashboard v3</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- Alert Messages -->
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="fas fa-check-circle me-2"></i><?= session()->getFlashdata('success') ?>
@@ -571,190 +109,273 @@
                 </div>
             <?php endif; ?>
 
-            <!-- Modern Statistics Cards -->
-            <div class="row mb-4">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #007bff !important;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Siswa</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= number_format($stats['total_siswa']) ?></div>
-                                    <div class="text-xs text-success mt-1">
-                                        <i class="fas fa-arrow-up"></i> 4.7% dari bulan lalu
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon-circle bg-primary">
-                                        <i class="fas fa-user-graduate text-white"></i>
-                                    </div>
-                                </div>
+            <!-- Welcome Card -->
+            <div class="card mb-4 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="text-primary mb-2">
+                                <i class="fas fa-hand-wave me-2"></i>Selamat Datang, Guru BK!
+                            </h4>
+                            <p class="mb-2">Anda berhasil login ke sistem Bimbingan dan Konseling SmartBK.</p>
+                            <div class="d-flex flex-wrap gap-3 mt-3">
+                                <span class="badge bg-primary px-3 py-2">
+                                    <i class="fas fa-users me-1"></i>Siswa Terbimbing: <?= isset($stats['siswa_terbimbing']) ? $stats['siswa_terbimbing'] : '145' ?>
+                                </span>
+                                <span class="badge bg-success px-3 py-2">
+                                    <i class="fas fa-calendar-check me-1"></i>Sesi Konseling: <?= isset($stats['sesi_konseling']) ? $stats['sesi_konseling'] : '28' ?>
+                                </span>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #28a745 !important;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Kelas</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= number_format($stats['total_kelas']) ?></div>
-                                    <div class="text-xs text-success mt-1">
-                                        <i class="fas fa-arrow-up"></i> 12.4% dari bulan lalu
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon-circle bg-success">
-                                        <i class="fas fa-school text-white"></i>
-                                    </div>
-                                </div>
+                        <div class="col-md-4 text-center">
+                            <div class="bg-primary bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center text-white" style="width: 80px; height: 80px;">
+                                <i class="fas fa-user-friends fs-2"></i>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #ffc107 !important;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orang Tua</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= number_format($stats['total_orang_tua']) ?></div>
-                                    <div class="text-xs text-danger mt-1">
-                                        <i class="fas fa-arrow-down"></i> 3.1% dari bulan lalu
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon-circle bg-warning">
-                                        <i class="fas fa-users text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #17a2b8 !important;">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tahun Ajaran</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $stats['active_tahun_ajaran'] ?></div>
-                                    <div class="text-xs text-info mt-1">
-                                        <i class="fas fa-calendar"></i> Semester Genap
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon-circle bg-info">
-                                        <i class="fas fa-calendar-check text-white"></i>
-                                    </div>
-                                </div>
-                            </div>
+                            <h6 class="text-muted mt-2">Portal Guru BK Aktif</h6>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts and Analytics Row -->
-            <div class="row mb-4">
-                <!-- Main Chart -->
-                <div class="col-lg-8 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 font-weight-bold text-primary">Aktivitas Siswa</h6>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end shadow">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-area">
-                                <canvas id="myAreaChart" style="height: 320px;"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Pie Chart -->
-                <div class="col-lg-4 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Distribusi Kelas</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-pie pt-4 pb-2">
-                                <canvas id="myPieChart" style="height: 245px;"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                <span class="me-2">
-                                    <i class="fas fa-circle text-primary"></i> Kelas X
-                                </span>
-                                <span class="me-2">
-                                    <i class="fas fa-circle text-success"></i> Kelas XI
-                                </span>
-                                <span class="me-2">
-                                    <i class="fas fa-circle text-info"></i> Kelas XII
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Info boxes -->
+            <!-- Statistics Cards Row -->
             <div class="row">
-                <div class="col-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">
-                                <i class="fas fa-bolt text-warning"></i>
-                                Aksi Cepat
-                            </h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="inner text-white">
+                            <h3><?= isset($stats['siswa_terbimbing']) ? number_format($stats['siswa_terbimbing']) : '820' ?></h3>
+                            <p>Online Store Visitors</p>
                         </div>
-                        <div class="box-body">
+                        <div class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">View Report <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="inner text-white">
+                            <h3>$<?= isset($stats['sesi_konseling']) ? number_format($stats['sesi_konseling']) : '18,230' ?></h3>
+                            <p>Sales</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">View Report <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="inner text-white">
+                            <h3><?= isset($stats['kasus_prioritas']) ? number_format($stats['kasus_prioritas']) : '44' ?></h3>
+                            <p>User Registrations</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="inner text-white">
+                            <h3><?= isset($stats['asesmen_selesai']) ? number_format($stats['asesmen_selesai']) : '65' ?></h3>
+                            <p>Unique Visitors</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mb-4 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">
+                        <i class="fas fa-bolt me-2"></i>Aksi Cepat Konseling
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <a href="<?= base_url('/konseling/individual') ?>" class="btn btn-outline-primary w-100 p-3 text-decoration-none">
+                                <i class="fas fa-user d-block mb-2 fs-2"></i>
+                                <strong>Konseling Individual</strong><br>
+                                <small>Sesi konseling perorangan</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <a href="<?= base_url('/konseling/kelompok') ?>" class="btn btn-outline-success w-100 p-3 text-decoration-none">
+                                <i class="fas fa-users d-block mb-2 fs-2"></i>
+                                <strong>Konseling Kelompok</strong><br>
+                                <small>Bimbingan kelompok siswa</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <a href="<?= base_url('/asesmen') ?>" class="btn btn-outline-warning w-100 p-3 text-decoration-none">
+                                <i class="fas fa-clipboard-list d-block mb-2 fs-2"></i>
+                                <strong>Asesmen</strong><br>
+                                <small>Tes psikologi & bakat</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <a href="<?= base_url('/bimbingan-karir') ?>" class="btn btn-outline-info w-100 p-3 text-decoration-none">
+                                <i class="fas fa-briefcase d-block mb-2 fs-2"></i>
+                                <strong>Bimbingan Karir</strong><br>
+                                <small>Panduan pilihan karir</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Activities -->
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Online Store Visitors -->
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Online Store Visitors</h3>
+                                <a href="javascript:void(0);" class="text-primary">View Report</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <p class="d-flex flex-column">
+                                    <span class="text-bold text-lg">820</span>
+                                    <span>Visitors Over Time</span>
+                                </p>
+                                <p class="ml-auto d-flex flex-column text-right">
+                                    <span class="text-success">
+                                        <i class="fas fa-arrow-up"></i> 12.5%
+                                    </span>
+                                    <span class="text-muted">Since last week</span>
+                                </p>
+                            </div>
+                            <div class="position-relative mb-4">
+                                <canvas id="visitorsChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <!-- Sales Chart -->
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Sales</h3>
+                                <a href="javascript:void(0);" class="text-primary">View Report</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <p class="d-flex flex-column">
+                                    <span class="text-bold text-lg">$18,230.00</span>
+                                    <span>Sales Over Time</span>
+                                </p>
+                                <p class="ml-auto d-flex flex-column text-right">
+                                    <span class="text-success">
+                                        <i class="fas fa-arrow-up"></i> 33.1%
+                                    </span>
+                                    <span class="text-muted">Since last month</span>
+                                </p>
+                            </div>
+                            <div class="position-relative mb-4">
+                                <canvas id="salesChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table and Online Store Overview -->
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- Products -->
+                    <div class="card">
+                        <div class="card-header border-transparent">
+                            <h3 class="card-title">Products</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table m-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Sales</th>
+                                        <th>More</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="https://via.placeholder.com/40" alt="Product" class="img-circle img-size-32 mr-2">
+                                            Some Product
+                                        </td>
+                                        <td>$13 USD</td>
+                                        <td><span class="text-success"><i class="fas fa-arrow-up"></i> 12%</span> 12,000 Sold</td>
+                                        <td>
+                                            <a href="#" class="text-muted">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="https://via.placeholder.com/40" alt="Product" class="img-circle img-size-32 mr-2">
+                                            Another Product
+                                        </td>
+                                        <td>$29 USD</td>
+                                        <td><span class="text-warning"><i class="fas fa-arrow-down"></i> 0.5%</span> 123,234 Sold</td>
+                                        <td>
+                                            <a href="#" class="text-muted">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <!-- Online Store Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Online Store Overview</h3>
+                        </div>
+                        <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-3 col-md-6 col-12">
-                                    <a href="#" class="btn-app">
-                                        <i class="fas fa-database text-primary"></i>
-                                        <span class="btn-app-label">Data Siswa</span>
-                                        <small class="btn-app-description">Kelola data siswa dan informasi akademik</small>
-                                    </a>
-                                </div>
-                                
-                                <div class="col-lg-3 col-md-6 col-12">
-                                    <a href="#" class="btn-app">
-                                        <i class="fas fa-chart-line text-success"></i>
-                                        <span class="btn-app-label">Nilai & Rapor</span>
-                                        <small class="btn-app-description">Input dan kelola nilai rapor siswa</small>
-                                    </a>
-                                </div>
-                                
-                                <div class="col-lg-3 col-md-6 col-12">
-                                    <a href="#" class="btn-app">
-                                        <i class="fas fa-calendar-alt text-warning"></i>
-                                        <span class="btn-app-label">Jadwal Mengajar</span>
-                                        <small class="btn-app-description">Lihat dan kelola jadwal mengajar</small>
-                                    </a>
-                                </div>
-                                
-                                <div class="col-lg-3 col-md-6 col-12">
-                                    <a href="#" class="btn-app">
-                                        <i class="fas fa-chart-bar text-info"></i>
-                                        <span class="btn-app-label">Laporan</span>
-                                        <small class="btn-app-description">Laporan akademik dan statistik</small>
-                                    </a>
+                                <div class="col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info"><i class="far fa-bookmark"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Bookmarks</span>
+                                            <span class="info-box-number">12%</span>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-info" style="width: 12%"></div>
+                                            </div>
+                                            <span class="progress-description">
+                                                CONVERSION RATE
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -762,164 +383,509 @@
                 </div>
             </div>
 
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <div class="col-lg-8">
-                    <!-- Activities -->
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">
-                                <i class="fas fa-clock text-primary"></i>
-                                Aktivitas Terbaru
-                            </h3>
-                        </div>
-                        <div class="box-body">
-                            <ul class="timeline">
-                                <li class="timeline-item">
-                                    <div class="timeline-marker bg-success"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">Login Berhasil</div>
-                                        <div class="timeline-body">
-                                            Sesi dimulai pada <?= date('d M Y, H:i') ?> WIB. Sistem berjalan normal.
-                                        </div>
-                                        <div class="timeline-time">
-                                            <i class="fas fa-clock"></i> Baru saja
-                                        </div>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-marker bg-primary"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">Database Terhubung</div>
-                                        <div class="timeline-body">
-                                            Koneksi ke database remote berhasil dan stabil. Semua data siap diakses.
-                                        </div>
-                                        <div class="timeline-time">
-                                            <i class="fas fa-clock"></i> 1 menit lalu
-                                        </div>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-marker bg-info"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">Sinkronisasi Data</div>
-                                        <div class="timeline-body">
-                                            Data statistik berhasil dimuat dan diperbarui dari server.
-                                        </div>
-                                        <div class="timeline-time">
-                                            <i class="fas fa-clock"></i> 2 menit lalu
-                                        </div>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-marker bg-warning"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-header">Keamanan Sistem</div>
-                                        <div class="timeline-body">
-                                            Sistem keamanan aktif dan berfungsi normal. SSL encryption enabled.
-                                        </div>
-                                        <div class="timeline-time">
-                                            <i class="fas fa-clock"></i> 5 menit lalu
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Right col -->
-                <div class="col-lg-4">
-                    <!-- Info Box -->
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">
-                                <i class="fas fa-info-circle text-primary"></i>
-                                Informasi Sistem
-                            </h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-success">
-                                    <i class="fas fa-database"></i>
-                                </span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Status Database</span>
-                                    <span class="info-box-number">Connected</span>
-                                    <div class="info-box-more">
-                                        <span class="badge bg-success">Active</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-primary">
-                                    <i class="fas fa-user"></i>
-                                </span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Role Pengguna</span>
-                                    <span class="info-box-number">Guru</span>
-                                    <div class="info-box-more">
-                                        <span class="badge bg-primary">Verified</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-warning">
-                                    <i class="fas fa-clock"></i>
-                                </span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Login Terakhir</span>
-                                    <span class="info-box-number"><?= date('H:i') ?></span>
-                                    <div class="info-box-more">
-                                        <small class="text-muted"><?= date('d M Y') ?></small>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-box">
-                                <span class="info-box-icon bg-info">
-                                    <i class="fas fa-code-branch"></i>
-                                </span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Versi Sistem</span>
-                                    <span class="info-box-number">v1.0.0</span>
-                                    <div class="info-box-more">
-                                        <span class="badge bg-info">Latest</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="box-footer">
-                            <div class="row">
-                                <div class="col-6">
-                                    <a href="<?= base_url('/profile') ?>" class="btn btn-primary btn-sm btn-block">
-                                        <i class="fas fa-user-cog"></i> Profil
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="#" class="btn btn-secondary btn-sm btn-block">
-                                        <i class="fas fa-cog"></i> Setting
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="text-center mt-3">
-                                <small class="text-muted">
-                                    <i class="fas fa-shield-alt"></i>
-                                    Dilindungi dengan enkripsi SSL
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+/* Enhanced Header Styles */
+<style>
+/* Base body styling */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Fixed Header Styles */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: 70px;
+}
+
+/* Content Wrapper - AdminLTE Style */
+.content-wrapper {
+    margin-left: 280px;
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
+    background-color: #f4f6f9;
+    padding: 0;
+    position: relative;
+    top: 0;
+}
+
+.content-wrapper.expanded {
+    margin-left: 70px;
+}
+
+/* Content Header */
+.content-header {
+    padding: 15px 30px 0 30px;
+    margin-bottom: 0;
+}
+
+.content-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #343a40;
+}
+
+/* Main Content Section */
+.content {
+    padding: 0 30px 30px 30px;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    background: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    color: #6c757d;
+    padding: 0 8px;
+}
+
+.breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* Small Box Components (AdminLTE Style) */
+.small-box {
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.small-box > .inner {
+    padding: 20px;
+}
+
+.small-box > .inner h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    padding: 0;
+}
+
+.small-box > .inner p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.small-box .icon {
+    color: rgba(255,255,255,.8);
+    z-index: 0;
+}
+
+.small-box .icon > i {
+    font-size: 90px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    transition: all .3s linear;
+}
+
+.small-box .small-box-footer {
+    background-color: rgba(0,0,0,.1);
+    color: rgba(255,255,255,.8);
+    display: block;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    z-index: 10;
+}
+
+.small-box .small-box-footer:hover {
+    background-color: rgba(0,0,0,.15);
+    color: #fff;
+}
+
+/* Card Styling */
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+    border: 0;
+    border-radius: 0.25rem;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+.card-title {
+    float: left;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.card-tools {
+    float: right;
+    margin-right: -0.625rem;
+}
+
+/* Info Box */
+.info-box {
+    display: flex;
+    margin-bottom: 1rem;
+    min-height: 80px;
+    padding: 10px;
+    position: relative;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    border-radius: 0.25rem;
+    background-color: #fff;
+}
+
+.info-box .info-box-icon {
+    border-radius: 0.25rem;
+    align-items: center;
+    display: flex;
+    font-size: 1.875rem;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+}
+
+.info-box .info-box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.8;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.info-box .info-box-number {
+    display: block;
+    margin-top: auto;
+    font-weight: 700;
+}
+
+.info-box .info-box-text {
+    display: block;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-box .progress {
+    background-color: rgba(0,0,0,.125);
+    height: 2px;
+    margin: 5px 0;
+}
+
+.progress-description {
+    color: #6c757d;
+    font-size: 0.75rem;
+}
+
+/* Table Styling */
+.table-responsive {
+    border-radius: 0.25rem;
+}
+
+.table th,
+.table td {
+    border-top: 1px solid #dee2e6;
+    padding: 0.75rem;
+    vertical-align: top;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.img-size-32 {
+    height: 32px;
+    width: 32px;
+}
+
+/* Hamburger Menu Styling */
+#sidebarToggle {
+    border: 1px solid #e9ecef;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+#sidebarToggle:hover {
+    background-color: #e9ecef;
+    border-color: #4A90E2;
+}
+
+.navbar-toggler-icon-custom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 18px;
+    height: 14px;
+}
+
+.navbar-toggler-icon-custom span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #6c757d;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+#sidebarToggle:hover .navbar-toggler-icon-custom span {
+    background-color: #4A90E2;
+}
+
+/* Animation for hamburger menu when active */
+#sidebarToggle.active .navbar-toggler-icon-custom span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+#sidebarToggle.active .navbar-toggler-icon-custom span:nth-child(2) {
+    opacity: 0;
+}
+
+#sidebarToggle.active .navbar-toggler-icon-custom span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* User avatar and profile styling */
+.user-avatar img {
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.dropdown-toggle:hover .user-avatar img {
+    border-color: #4A90E2;
+}
+
+/* Enhanced dropdown styling */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    margin-top: 8px;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    margin: 2px 8px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 0;
+        margin-top: 70px;
+    }
+    
+    .content-header {
+        padding: 15px;
+    }
+    
+    .content {
+        padding: 0 15px 30px 15px;
+    }
+    
+    .fixed-header .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .fixed-header .row {
+        flex-direction: column;
+        height: auto !important;
+        padding: 10px 0;
+    }
+    
+    .fixed-header .col-md-6:first-child {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .small-box > .inner h3 {
+        font-size: 1.8rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar Toggle Functionality
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            // Toggle active class for button animation
+            this.classList.toggle('active');
+            
+            // Toggle sidebar visibility - hide/show the MENU not content
+            if (sidebar) {
+                sidebar.classList.toggle('collapsed');
+                
+                // For mobile - slide sidebar in/out
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('show');
+                }
+            }
+            
+            // Adjust main content margin when sidebar is collapsed
+            if (contentWrapper) {
+                contentWrapper.classList.toggle('expanded');
+            }
+            
+            // Toggle overlay for mobile
+            if (window.innerWidth <= 768 && sidebarOverlay) {
+                sidebarOverlay.classList.toggle('show');
+            }
+        });
+    }
+
+    // Close sidebar when clicking overlay (mobile only)
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            if (sidebar && window.innerWidth <= 768) {
+                sidebar.classList.remove('show');
+                sidebar.classList.add('collapsed');
+            }
+            this.classList.remove('show');
+            if (sidebarToggle) {
+                sidebarToggle.classList.remove('active');
+            }
+            if (contentWrapper) {
+                contentWrapper.classList.add('expanded');
+            }
+        });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            // Reset mobile classes on desktop
+            if (sidebar) {
+                sidebar.classList.remove('show');
+            }
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.remove('show');
+            }
+        }
+    });
+
+    // Visitors Chart
+    const visitorsCtx = document.getElementById('visitorsChart');
+    if (visitorsCtx) {
+        new Chart(visitorsCtx, {
+            type: 'line',
+            data: {
+                labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+                datasets: [{
+                    label: 'This Week',
+                    data: [100, 120, 140, 160, 150, 170, 180],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Last Week',
+                    data: [80, 100, 90, 110, 100, 120, 130],
+                    borderColor: '#6c757d',
+                    backgroundColor: 'rgba(108, 117, 125, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Sales Chart
+    const salesCtx = document.getElementById('salesChart');
+    if (salesCtx) {
+        new Chart(salesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+                datasets: [{
+                    label: 'This year',
+                    data: [1000, 2000, 3000, 2500, 2700, 2500, 3000],
+                    backgroundColor: '#007bff'
+                }, {
+                    label: 'Last year',
+                    data: [800, 1500, 2000, 2200, 2000, 2300, 2500],
+                    backgroundColor: '#6c757d'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 
 <?= $this->endSection() ?>

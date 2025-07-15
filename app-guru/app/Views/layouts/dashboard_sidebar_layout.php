@@ -57,14 +57,35 @@
             border-right: 1px solid var(--border-light);
             box-shadow: 4px 0 20px var(--shadow-soft);
             position: fixed;
-            top: 0;
+            top: 70px; /* Space for fixed header */
             left: 0;
-            height: 100vh;
+            height: calc(100vh - 70px); /* Adjust height for header */
             overflow-y: auto;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
+            z-index: 1010; /* Lower than header */
             scrollbar-width: thin;
             scrollbar-color: var(--border-light) transparent;
+        }
+
+        /* Collapsed Sidebar */
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .brand-text,
+        .sidebar.collapsed .submenu {
+            display: none;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: 15px;
         }
 
         /* Custom Scrollbar */
@@ -412,81 +433,19 @@
         /* Main Content Area */
         .main-content {
             margin-left: 280px;
-            min-height: 100vh;
+            margin-top: 70px; /* Space for fixed header */
+            min-height: calc(100vh - 70px); /* Adjust height for header */
             background: var(--elegant-gray);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 24px;
+            padding: 0; /* Remove padding for AdminLTE style */
         }
 
         .main-content.expanded {
             margin-left: 70px;
         }
 
-        /* Header */
-        .main-header {
-            background: white;
-            box-shadow: 0 2px 10px var(--shadow-card);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-light);
-            border-radius: 12px;
-            margin-bottom: 24px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .menu-toggle {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-right: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle:hover {
-            background: var(--light-blue);
-            color: var(--primary-blue);
-        }
-
-        .header-user {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            margin-right: 12px;
-        }
-
-        .user-info h6 {
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .user-info small {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
+        .main-content.expanded {
+            margin-left: 70px;
         }
 
         /* Mobile Responsive */
@@ -494,6 +453,9 @@
             .sidebar {
                 transform: translateX(-100%);
                 width: 280px;
+                z-index: 1050;
+                top: 70px; /* Keep header space on mobile */
+                height: calc(100vh - 70px);
             }
 
             .sidebar.show {
@@ -502,7 +464,10 @@
 
             .main-content {
                 margin-left: 0;
+                margin-top: 70px; /* Space for fixed header on mobile */
                 padding: 16px;
+                width: 100%;
+                min-height: calc(100vh - 70px);
             }
 
             .main-content.expanded {
@@ -513,22 +478,63 @@
                 display: none;
             }
 
-            .main-header {
-                padding: 12px 16px;
-                margin-bottom: 16px;
+            /* Hide desktop navbar on mobile */
+            .navbar-fixed-top {
+                left: 0 !important;
+                padding: 0.5rem 1rem;
+                z-index: 1025 !important;
+            }
+
+            .navbar-fixed-top.collapsed {
+                left: 0 !important;
             }
         }
 
         /* Mobile Header */
         .mobile-header {
             display: none;
-            background: white;
+            background: var(--gradient-primary);
             padding: 16px 20px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
             top: 0;
             z-index: 999;
             box-shadow: 0 2px 8px var(--shadow-soft);
+            color: white;
+        }
+
+        .mobile-header h5 {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .menu-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .menu-toggle i {
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -592,7 +598,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            z-index: 1040;
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -605,14 +611,9 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Header -->
-    <div class="mobile-header d-lg-none">
-        <button class="menu-toggle" id="mobileMenuToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        <h5 class="mb-0">SmartBK Dashboard</h5>
-    </div>
-
+    <!-- Header Section -->
+    <?= $this->renderSection('header') ?>
+    
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -628,13 +629,8 @@
                     </div>
                     <div class="brand-text">
                         <h4>SmartBK</h4>
-                        <small>Sistem Bimbingan Konseling</small>
                     </div>
                 </a>
-                <!-- Sidebar Toggle -->
-                <button class="sidebar-toggle d-none d-lg-flex" id="sidebarToggle">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
             </div>
 
             <!-- Sidebar Navigation -->
@@ -776,27 +772,6 @@
 
         <!-- Main Content -->
         <main class="main-content" id="mainContent">
-            <!-- Header -->
-            <div class="main-header">
-                <div class="header-content">
-                    <div class="d-flex align-items-center">
-                        <button class="menu-toggle d-lg-none" id="desktopMenuToggle">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                        <h4 class="mb-0"><?= $title ?? 'Dashboard' ?></h4>
-                    </div>
-                    <div class="header-user">
-                        <div class="user-avatar">
-                            <?= strtoupper(substr(session('nama') ?? 'U', 0, 1)) ?>
-                        </div>
-                        <div class="user-info">
-                            <h6><?= session('nama') ?? 'User' ?></h6>
-                            <small><?= session('role_name') ?? 'Guru' ?></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Page Content -->
             <div class="content-card">
                 <?= $this->renderSection('content') ?>
@@ -810,37 +785,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
             const roleFilter = document.getElementById('roleFilter');
-
-            // Sidebar toggle functionality
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    sidebar.classList.toggle('collapsed');
-                    mainContent.classList.toggle('expanded');
-                    
-                    const icon = sidebarToggle.querySelector('i');
-                    if (sidebar.classList.contains('collapsed')) {
-                        icon.classList.remove('fa-chevron-left');
-                        icon.classList.add('fa-chevron-right');
-                    } else {
-                        icon.classList.remove('fa-chevron-right');
-                        icon.classList.add('fa-chevron-left');
-                    }
-                    
-                    // Save state
-                    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-                    
-                    // Prevent scroll jump
-                    return false;
-                });
-            }
 
             // Mobile menu toggle
             if (mobileMenuToggle) {
@@ -848,37 +796,50 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    sidebar.classList.toggle('show');
-                    sidebarOverlay.classList.toggle('show');
-                    
-                    return false;
-                });
-            }
-
-            // Desktop menu toggle (for responsive)
-            const desktopMenuToggle = document.getElementById('desktopMenuToggle');
-            if (desktopMenuToggle) {
-                desktopMenuToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    if (window.innerWidth <= 768) {
+                    if (sidebar) {
                         sidebar.classList.toggle('show');
-                        sidebarOverlay.classList.toggle('show');
-                    } else {
-                        sidebar.classList.toggle('collapsed');
-                        mainContent.classList.toggle('expanded');
+                        if (sidebarOverlay) {
+                            sidebarOverlay.classList.toggle('show');
+                        }
                     }
                     
                     return false;
                 });
             }
 
-            // Close mobile sidebar when clicking overlay
+            // Overlay click to close mobile sidebar
             if (sidebarOverlay) {
                 sidebarOverlay.addEventListener('click', function() {
-                    sidebar.classList.remove('show');
-                    sidebarOverlay.classList.remove('show');
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                    }
+                });
+            }
+
+            // Sidebar toggle for desktop only (in sidebar)
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.toggle('collapsed');
+                        
+                        const icon = sidebarToggle.querySelector('i');
+                        if (sidebar.classList.contains('collapsed')) {
+                            icon.classList.remove('fa-chevron-left');
+                            icon.classList.add('fa-chevron-right');
+                        } else {
+                            icon.classList.remove('fa-chevron-right');
+                            icon.classList.add('fa-chevron-left');
+                        }
+                        
+                        // Save state
+                        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+                    }
+                    
+                    return false;
                 });
             }
 
@@ -908,15 +869,16 @@
                 }
             }
 
-            // Restore sidebar state
-            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-            if (sidebarCollapsed) {
-                sidebar.classList.add('collapsed');
-                mainContent.classList.add('expanded');
-                if (sidebarToggle) {
-                    const icon = sidebarToggle.querySelector('i');
-                    icon.classList.remove('fa-chevron-left');
-                    icon.classList.add('fa-chevron-right');
+            // Restore sidebar state (desktop only)
+            if (window.innerWidth > 768) {
+                const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                if (sidebarCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    if (sidebarToggle) {
+                        const icon = sidebarToggle.querySelector('i');
+                        icon.classList.remove('fa-chevron-left');
+                        icon.classList.add('fa-chevron-right');
+                    }
                 }
             }
 
@@ -936,19 +898,24 @@
                 link.addEventListener('click', function() {
                     if (window.innerWidth <= 768) {
                         sidebar.classList.remove('show');
-                        sidebarOverlay.classList.remove('show');
+                        if (sidebarOverlay) {
+                            sidebarOverlay.classList.remove('show');
+                        }
                     }
                 });
             });
 
             // Handle window resize
             window.addEventListener('resize', function() {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('collapsed');
-                    mainContent.classList.remove('expanded');
-                } else {
+                if (window.innerWidth > 768) {
+                    // Clear mobile classes when switching to desktop
                     sidebar.classList.remove('show');
-                    sidebarOverlay.classList.remove('show');
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.remove('show');
+                    }
+                } else {
+                    // Clear desktop collapsed state on mobile
+                    sidebar.classList.remove('collapsed');
                 }
             });
         });
