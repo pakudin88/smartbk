@@ -79,10 +79,17 @@
     <!-- Demo Users Section -->
     <?php if (!empty($demoUsers)): ?>
     <div class="demo-section">
-        <h6 class="demo-title">
-            <i class="fas fa-users me-2"></i>
-            Akun Demo yang Tersedia
-        </h6>
+        <div class="demo-header">
+            <h6 class="demo-title">
+                <i class="fas fa-users me-2"></i>
+                Akun Demo yang Tersedia
+                <span class="demo-badge">DEMO</span>
+            </h6>
+            <p class="demo-description">
+                <i class="fas fa-info-circle me-1"></i>
+                Gunakan akun berikut untuk mencoba sistem tanpa registrasi
+            </p>
+        </div>
         
         <div class="demo-table-container">
             <table class="demo-table">
@@ -114,8 +121,8 @@
         </div>
         
         <div class="demo-note">
-            <i class="fas fa-info-circle me-1"></i>
-            Klik username untuk mengisi form login otomatis
+            <i class="fas fa-cursor-pointer me-1"></i>
+            <strong>Tip:</strong> Klik username untuk mengisi form login otomatis, atau klik password untuk copy
         </div>
     </div>
     <?php endif; ?>
