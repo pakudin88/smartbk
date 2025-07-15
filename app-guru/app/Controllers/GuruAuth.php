@@ -60,6 +60,9 @@ class GuruAuth extends BaseController
         $user = $query->getRow();
         
         if ($user && password_verify($password, $user->password)) {
+            // Determine specific role based on user data or additional checks
+            $specificRole = $this->determineSpecificRole($user);
+            
             // Set session
             $this->session->set([
                 'guru_logged_in' => true,
@@ -68,6 +71,7 @@ class GuruAuth extends BaseController
                 'full_name' => $user->full_name,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
+                'user_role' => $specificRole, // Specific role for menu filtering
                 'tahun_ajaran_id' => $user->tahun_ajaran_id
             ]);
             
@@ -79,17 +83,16 @@ class GuruAuth extends BaseController
             return redirect()->back()->withInput()->with('error', 'Username atau password salah. Pastikan Anda terdaftar sebagai guru.');
         }
     }
-    
-    // Dashboard utama untuk guru
+      // Dashboard utama untuk guru
     public function dashboard()
     {
         if (!$this->session->get('guru_logged_in')) {
             return redirect()->to(base_url('/login'))->with('error', 'Silakan login terlebih dahulu.');
         }
-        
+
         // Ambil statistik untuk dashboard
         $stats = $this->getDashboardStats();
-        
+
         $data = [
             'title' => 'Dashboard Guru - Smart BookKeeping',
             'user_name' => $this->session->get('full_name'),
@@ -98,8 +101,8 @@ class GuruAuth extends BaseController
             'tahun_ajaran_id' => $this->session->get('tahun_ajaran_id'),
             'stats' => $stats
         ];
-        
-        return view('guru/dashboard', $data);
+
+        return view('guru/dashboard_new', $data);
     }
     
     // Halaman profil guru
@@ -172,6 +175,38 @@ class GuruAuth extends BaseController
                 'total_orang_tua' => 0,
                 'active_tahun_ajaran' => 0
             ];
+        }
+    }
+    
+    // Method untuk menentukan role spesifik guru
+    private function determineSpecificRole($user)
+    {
+        $db = \Config\Database::connect();
+        
+        // Check if user is a class teacher (wali kelas)
+        $waliKelasQuery = $db->query("SELECT COUNT(*) as count FROM kelas WHERE wali_kelas_id = ?", [$user->id]);
+        $isWaliKelas = $waliKelasQuery->getRow()->count > 0;
+        
+        // Check if user is BK teacher (based on subject or specific field)
+        $bkQuery = $db->query("SELECT COUNT(*) as count FROM mata_pelajaran mp 
+                              JOIN guru_mata_pelajaran gmp ON mp.id = gmp.mata_pelajaran_id 
+                              WHERE gmp.guru_id = ? AND (mp.nama LIKE '%BK%' OR mp.nama LIKE '%Konseling%')", [$user->id]);
+        $isBK = $bkQuery->getRow()->count > 0;
+        
+        // Check if user is headmaster (based on role or specific field)
+        $headmasterQuery = $db->query("SELECT jabatan FROM guru WHERE user_id = ?", [$user->id]);
+        $guruData = $headmasterQuery->getRow();
+        $isHeadmaster = $guruData && (strpos(strtolower($guruData->jabatan), 'kepala') !== false);
+        
+        // Determine specific role
+        if ($isHeadmaster) {
+            return 'kepala_sekolah';
+        } elseif ($isBK) {
+            return 'guru_bk';
+        } elseif ($isWaliKelas) {
+            return 'wali_kelas';
+        } else {
+            return 'guru_mapel';
         }
     }
 }
