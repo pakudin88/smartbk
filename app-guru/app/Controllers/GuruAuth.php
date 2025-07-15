@@ -31,26 +31,9 @@ class GuruAuth extends BaseController
             return redirect()->to(base_url('/dashboard'));
         }
         
-        // Get demo users from database
-        $demoUsers = [];
-        try {
-            $db = \Config\Database::connect();
-            $query = $db->query("SELECT username, role, full_name FROM users WHERE is_active = 1 LIMIT 5");
-            $demoUsers = $query->getResultArray();
-        } catch (\Exception $e) {
-            // Default demo users if database query fails
-            $demoUsers = [
-                ['username' => 'admin', 'role' => 'kepala_sekolah', 'full_name' => 'Kepala Sekolah'],
-                ['username' => 'guru1', 'role' => 'guru_mapel', 'full_name' => 'Guru Mata Pelajaran'],
-                ['username' => 'wali1', 'role' => 'wali_kelas', 'full_name' => 'Wali Kelas 7A'],
-                ['username' => 'bk1', 'role' => 'guru_bk', 'full_name' => 'Guru BK']
-            ];
-        }
-        
         $data = [
             'title' => 'Login Guru - Smart BookKeeping',
-            'validation' => \Config\Services::validation(),
-            'demoUsers' => $demoUsers
+            'validation' => \Config\Services::validation()
         ];
         
         return view('auth/login', $data);
@@ -71,9 +54,9 @@ class GuruAuth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         
-        // Check user in users table - semua role diperbolehkan login sebagai guru
+        // Check user in users table with role_id = 2 (guru)
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT * FROM users WHERE username = ? AND is_active = 1", [$username]);
+        $query = $db->query("SELECT * FROM users WHERE username = ? AND role_id = 2 AND is_active = 1", [$username]);
         $user = $query->getRow();
         
         if ($user && password_verify($password, $user->password)) {
@@ -84,7 +67,8 @@ class GuruAuth extends BaseController
                 'username' => $user->username,
                 'full_name' => $user->full_name,
                 'email' => $user->email,
-                'role' => $user->role
+                'role_id' => $user->role_id,
+                'tahun_ajaran_id' => $user->tahun_ajaran_id
             ]);
             
             // Update last login

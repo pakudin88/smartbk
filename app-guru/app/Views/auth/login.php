@@ -77,63 +77,17 @@
     </form>
     
     <!-- Demo Users Section -->
-    <?php if (!empty($demoUsers)): ?>
     <div class="demo-section">
-        <div class="demo-header">
-            <h6 class="demo-title">
-                <i class="fas fa-users me-2"></i>
-                Akun Demo yang Tersedia
-                <span class="demo-badge">DEMO</span>
-            </h6>
-            <p class="demo-description">
-                <i class="fas fa-info-circle me-1"></i>
-                Gunakan akun berikut untuk mencoba sistem tanpa registrasi
-            </p>
-        </div>
-        
-        <div class="demo-table-container">
-            <table class="demo-table">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-user me-1"></i>Username</th>
-                        <th><i class="fas fa-key me-1"></i>Password</th>
-                        <th><i class="fas fa-tag me-1"></i>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($demoUsers as $user): ?>
-                    <tr>
-                        <td>
-                            <code class="demo-username" onclick="fillLogin('<?= htmlspecialchars($user['username']) ?>')">
-                                <?= htmlspecialchars($user['username']) ?>
-                            </code>
-                        </td>
-                        <td><code class="demo-password">password123</code></td>
-                        <td>
-                            <span class="role-badge role-<?= strtolower(str_replace('_', '-', $user['role'])) ?>">
-                                <?php 
-                                    $roleNames = [
-                                        'guru_mapel' => 'Guru Mapel',
-                                        'wali_kelas' => 'Wali Kelas', 
-                                        'guru_bk' => 'Guru BK',
-                                        'kepala_sekolah' => 'Kepala Sekolah'
-                                    ];
-                                    echo $roleNames[$user['role']] ?? ucfirst(str_replace('_', ' ', $user['role']));
-                                ?>
-                            </span>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+        <h6 class="demo-title">
+            <i class="fas fa-users me-2"></i>
+            Akun Demo
+        </h6>
         
         <div class="demo-note">
-            <i class="fas fa-cursor-pointer me-1"></i>
-            <strong>Tip:</strong> Klik username untuk mengisi form login otomatis, atau klik password untuk copy
+            <i class="fas fa-info-circle me-1"></i>
+            Tersedia akun demo untuk testing sistem
         </div>
     </div>
-    <?php endif; ?>
     
     <div class="auth-footer">
         <i class="fas fa-shield-alt me-2"></i>
