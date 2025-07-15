@@ -185,6 +185,117 @@
             font-size: 0.85rem;
         }
         
+        .demo-section {
+            background: #f8f9ff;
+            border: 2px solid #e6efff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .demo-title {
+            color: #4c63d2;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .demo-table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .demo-table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        
+        .demo-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .demo-table th:first-child {
+            border-top-left-radius: 8px;
+        }
+        
+        .demo-table th:last-child {
+            border-top-right-radius: 8px;
+        }
+        
+        .demo-table td {
+            padding: 10px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        
+        .demo-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .demo-username {
+            background: #e6f3ff;
+            color: #1e40af;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .demo-username:hover {
+            background: #1e40af;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .demo-password {
+            background: #f0f9f0;
+            color: #16a34a;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .role-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .role-admin {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+        }
+        
+        .role-teacher, .role-guru {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+        }
+        
+        .demo-note {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-top: 12px;
+            padding: 8px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+        }
+        
         .invalid-feedback {
             color: #e53e3e;
             font-size: 0.875rem;
@@ -202,6 +313,29 @@
             
             .auth-title {
                 font-size: 1.3rem;
+            }
+            
+            .demo-section {
+                padding: 15px;
+                margin: 20px 0;
+            }
+            
+            .demo-table {
+                font-size: 0.75rem;
+            }
+            
+            .demo-table th, .demo-table td {
+                padding: 8px 6px;
+            }
+            
+            .demo-username, .demo-password {
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+            
+            .role-badge {
+                padding: 2px 6px;
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -228,6 +362,54 @@
                 toggleIcon.classList.add('fa-eye');
             }
         }
+        
+        // Auto-fill login form with demo credentials
+        function fillLogin(username) {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            
+            // Fill username
+            usernameInput.value = username;
+            
+            // Fill password
+            passwordInput.value = 'password123';
+            
+            // Add visual feedback
+            usernameInput.style.borderColor = '#10b981';
+            passwordInput.style.borderColor = '#10b981';
+            
+            // Focus on password field
+            passwordInput.focus();
+            
+            // Remove green border after 2 seconds
+            setTimeout(() => {
+                usernameInput.style.borderColor = '#e2e8f0';
+                passwordInput.style.borderColor = '#e2e8f0';
+            }, 2000);
+        }
+        
+        // Add click-to-copy functionality for password
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordCodes = document.querySelectorAll('.demo-password');
+            passwordCodes.forEach(function(code) {
+                code.style.cursor = 'pointer';
+                code.title = 'Klik untuk copy password';
+                
+                code.addEventListener('click', function() {
+                    navigator.clipboard.writeText('password123').then(function() {
+                        code.style.background = '#10b981';
+                        code.style.color = 'white';
+                        code.textContent = 'Copied!';
+                        
+                        setTimeout(() => {
+                            code.style.background = '#f0f9f0';
+                            code.style.color = '#16a34a';
+                            code.textContent = 'password123';
+                        }, 1000);
+                    });
+                });
+            });
+        });
     </script>
 </body>
 </html>

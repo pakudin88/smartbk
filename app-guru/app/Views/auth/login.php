@@ -33,7 +33,8 @@
         </div>
     <?php endif; ?>
     
-    <?= form_open(base_url('/authenticate'), ['class' => 'auth-form']) ?>
+    <form action="<?= base_url('/authenticate') ?>" method="POST" class="auth-form">
+        <?= csrf_field() ?>
         
         <div class="form-group">
             <label for="username" class="form-label">
@@ -73,12 +74,56 @@
             <i class="fas fa-sign-in-alt me-2"></i>Login ke Dashboard
         </button>
         
-    <?= form_close() ?>
+    </form>
+    
+    <!-- Demo Users Section -->
+    <?php if (!empty($demoUsers)): ?>
+    <div class="demo-section">
+        <h6 class="demo-title">
+            <i class="fas fa-users me-2"></i>
+            Akun Demo yang Tersedia
+        </h6>
+        
+        <div class="demo-table-container">
+            <table class="demo-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user me-1"></i>Username</th>
+                        <th><i class="fas fa-key me-1"></i>Password</th>
+                        <th><i class="fas fa-tag me-1"></i>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($demoUsers as $user): ?>
+                    <tr>
+                        <td>
+                            <code class="demo-username" onclick="fillLogin('<?= htmlspecialchars($user['username']) ?>')">
+                                <?= htmlspecialchars($user['username']) ?>
+                            </code>
+                        </td>
+                        <td><code class="demo-password">password123</code></td>
+                        <td>
+                            <span class="role-badge role-<?= strtolower($user['role']) ?>">
+                                <?= ucfirst($user['role']) ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="demo-note">
+            <i class="fas fa-info-circle me-1"></i>
+            Klik username untuk mengisi form login otomatis
+        </div>
+    </div>
+    <?php endif; ?>
     
     <div class="auth-footer">
-        <i class="fas fa-info-circle me-2"></i>
-        Hanya untuk guru yang terdaftar di sistem<br>
-        <small class="text-muted">Smart BookKeeping v1.0 - 2025</small>
+        <i class="fas fa-shield-alt me-2"></i>
+        Portal khusus guru yang terdaftar di sistem Smart BookKeeping<br>
+        <small class="text-muted">Autentikasi menggunakan database users - v1.0 (2025)</small>
     </div>
 </div>
 <?= $this->endSection() ?>

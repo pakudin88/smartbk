@@ -31,9 +31,25 @@ class GuruAuth extends BaseController
             return redirect()->to(base_url('/dashboard'));
         }
         
+        // Get demo users from database
+        $demoUsers = [];
+        try {
+            $db = \Config\Database::connect();
+            $query = $db->query("SELECT username, role, full_name FROM users WHERE status = 'active' AND role IN ('teacher', 'guru', 'admin') LIMIT 5");
+            $demoUsers = $query->getResultArray();
+        } catch (\Exception $e) {
+            // Default demo users if database query fails
+            $demoUsers = [
+                ['username' => 'admin', 'role' => 'admin', 'full_name' => 'Administrator'],
+                ['username' => 'guru1', 'role' => 'teacher', 'full_name' => 'Guru Demo 1'],
+                ['username' => 'teacher', 'role' => 'teacher', 'full_name' => 'Teacher Demo']
+            ];
+        }
+        
         $data = [
             'title' => 'Login Guru - Smart BookKeeping',
-            'validation' => \Config\Services::validation()
+            'validation' => \Config\Services::validation(),
+            'demoUsers' => $demoUsers
         ];
         
         return view('auth/login', $data);
