@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Layout SmartBK Dashboard</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Copy the same CSS from dashboard_sidebar_layout.php */
+        :root {
+            --primary-blue: #4A90E2;
+            --light-blue: #E3F2FD;
+            --accent-blue: #2196F3;
+            --elegant-gray: #F8F9FA;
+            --white: #FFFFFF;
+            --text-primary: #2C3E50;
+            --text-secondary: #6C757D;
+            --text-muted: #8E9AAF;
+            --border-light: #E9ECEF;
+            --shadow-soft: rgba(74, 144, 226, 0.1);
+            --shadow-card: rgba(0, 0, 0, 0.08);
+            --gradient-primary: linear-gradient(135deg, #4A90E2 0%, #2196F3 100%);
+            --gradient-light: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            --gradient-subtle: linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--elegant-gray);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout Container */
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Fixed Header Navbar */
+        .navbar-fixed-top {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 8px var(--shadow-soft);
+            z-index: 1040;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-fixed-top.collapsed {
+            left: 70px;
+        }
+
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+            font-size: 1.3rem;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-nav .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .user-info small {
+            opacity: 0.9;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--gradient-subtle);
+            border-right: 1px solid var(--border-light);
+            box-shadow: 4px 0 20px var(--shadow-soft);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1050;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .brand-text h5 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+        }
+
+        .brand-text small {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow-soft);
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .sidebar-toggle i {
+            font-size: 0.8rem;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: var(--elegant-gray);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            width: calc(100% - 280px);
+        }
+
+        .main-content.expanded {
+            margin-left: 70px;
+            width: calc(100% - 70px);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow-card);
+            border: 1px solid var(--border-light);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-fixed-top {
+                left: 0 !important;
+                padding: 0 15px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                z-index: 1050;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: rgba(255, 255, 255, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 6px;
+                padding: 8px 10px;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header Navbar -->
+    <nav class="navbar-fixed-top" id="navbarTop">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <a href="#" class="navbar-brand">
+            <i class="fas fa-graduation-cap"></i>
+            SmartBK Dashboard
+        </a>
+        
+        <div class="navbar-nav">
+            <div class="user-info text-end">
+                <strong>Administrator</strong>
+                <small>Guru</small>
+            </div>
+            <a href="#" class="nav-link">
+                <i class="fas fa-user-circle"></i>
+                <span class="d-none d-md-inline">Profil</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="d-none d-md-inline">Keluar</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h5>Menu Navigasi</h5>
+                        <small>SmartBK System</small>
+                    </div>
+                </a>
+                
+                <!-- Desktop Sidebar Toggle -->
+                <div class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+            </div>
+
+            <!-- Sidebar Content -->
+            <div class="sidebar-nav p-3">
+                <div class="nav-item mb-2">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="nav-item mb-2">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-radar me-2"></i>
+                        Radar Kelas
+                    </a>
+                </div>
+                <div class="nav-item mb-2">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-brain me-2"></i>
+                        Asesmen Bakat Minat
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="content-card">
+                <h2>Selamat Datang di SmartBK Dashboard</h2>
+                <p>Layout telah diperbaiki dengan struktur yang proporsional:</p>
+                <ul>
+                    <li>Header navbar fixed di atas</li>
+                    <li>Sidebar di sebelah kiri dengan toggle button</li>
+                    <li>Main content area yang responsif</li>
+                    <li>Tidak ada tumpang tindih antar elemen</li>
+                </ul>
+                
+                <div class="mt-4">
+                    <h4>Fitur Layout:</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card border-primary mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Header Fixed</h6>
+                                    <p class="card-text">Header navbar yang tetap di atas halaman</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-success mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Sidebar Collapsible</h6>
+                                    <p class="card-text">Sidebar yang bisa diperkecil untuk space lebih luas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-info mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Responsive Design</h6>
+                                    <p class="card-text">Layout yang menyesuaikan ukuran layar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            // Mobile menu toggle
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sidebar.classList.toggle('show');
+                    sidebarOverlay.classList.toggle('show');
+                });
+            }
+
+            // Overlay click to close mobile sidebar
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                });
+            }
+
+            // Sidebar toggle for desktop
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.toggle('collapsed');
+                        const mainContent = document.getElementById('mainContent');
+                        const navbarTop = document.getElementById('navbarTop');
+                        
+                        if (sidebar.classList.contains('collapsed')) {
+                            mainContent.classList.add('expanded');
+                            navbarTop.classList.add('collapsed');
+                        } else {
+                            mainContent.classList.remove('expanded');
+                            navbarTop.classList.remove('collapsed');
+                        }
+                        
+                        const icon = sidebarToggle.querySelector('i');
+                        if (sidebar.classList.contains('collapsed')) {
+                            icon.classList.remove('fa-chevron-left');
+                            icon.classList.add('fa-chevron-right');
+                        } else {
+                            icon.classList.remove('fa-chevron-right');
+                            icon.classList.add('fa-chevron-left');
+                        }
+                    }
+                });
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    const mainContent = document.getElementById('mainContent');
+                    const navbarTop = document.getElementById('navbarTop');
+                    
+                    if (mainContent) mainContent.classList.remove('expanded');
+                    if (navbarTop) navbarTop.classList.remove('collapsed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

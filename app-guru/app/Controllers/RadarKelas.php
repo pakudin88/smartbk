@@ -24,10 +24,33 @@ class RadarKelas extends BaseController
             return redirect()->to(base_url('/login'))->with('error', 'Silakan login terlebih dahulu.');
         }
         
+        $guru_id = $this->session->get('user_id');
+
+        // Get stats
+        $laporanBulanIni = $this->db->table('radar_laporan')->where('guru_id', $guru_id)->where('MONTH(created_at)', date('m'))->where('YEAR(created_at)', date('Y'))->countAllResults();
+        $siswaDilaporkan = $this->db->table('radar_laporan')->where('guru_id', $guru_id)->select('siswa_id')->distinct()->get()->getNumRows();
+        $kasusDitangani = $this->db->table('radar_laporan')->where('guru_id', $guru_id)->whereIn('status', ['Dalam Proses', 'Selesai'])->countAllResults();
+
+        // Get history
+        $riwayatQuery = $this->db->query("
+            SELECT rl.*, u.full_name as nama_siswa, u.username 
+            FROM radar_laporan rl 
+            JOIN users u ON rl.siswa_id = u.id 
+            WHERE rl.guru_id = ? 
+            ORDER BY rl.created_at DESC
+            LIMIT 5
+        ", [$guru_id]);
+        $riwayat = $riwayatQuery->getResult();
+
         $data = [
             'title' => 'Radar Kelas - Smart BookKeeping',
             'user_name' => $this->session->get('full_name'),
-            'role' => 'guru_mapel'
+            'role' => 'guru_mapel',
+            'laporanBulanIni' => $laporanBulanIni,
+            'siswaDilaporkan' => $siswaDilaporkan,
+            'kasusDitangani' => $kasusDitangani,
+            'responseTime' => 24, // Placeholder
+            'riwayat' => $riwayat
         ];
         
         return view('guru/radar_kelas/index', $data);
@@ -45,18 +68,23 @@ class RadarKelas extends BaseController
         // Ambil data siswa jika ada ID
         $siswa = null;
         if ($siswa_id) {
-            $query = $this->db->query("SELECT * FROM users WHERE id = ? AND role_id = 3 AND is_active = 1", [$siswa_id]);
+            $query = $this->db->query("SELECT u.*, sp.class_name FROM users u JOIN siswa_profiles sp ON u.id = sp.user_id WHERE u.id = ? AND u.role_id = 3 AND u.is_active = 1", [$siswa_id]);
             $siswa = $query->getRow();
         }
         
-        // Ambil daftar siswa untuk dropdown
-        $siswaQuery = $this->db->query("SELECT id, full_name, username FROM users WHERE role_id = 3 AND is_active = 1 ORDER BY full_name");
+        // Ambil daftar kelas untuk filter
+        $kelasQuery = $this->db->query("SELECT DISTINCT c.name as class_name FROM classes c JOIN siswa_profiles sp ON c.id = sp.class_id ORDER BY c.name");
+        $daftarKelas = $kelasQuery->getResult();
+
+        // Ambil daftar siswa untuk dropdown (sekarang termasuk kelas)
+        $siswaQuery = $this->db->query("SELECT u.id, u.full_name, u.username, c.name as class_name FROM users u JOIN siswa_profiles sp ON u.id = sp.user_id JOIN classes c ON sp.class_id = c.id WHERE u.role_id = 3 AND u.is_active = 1 ORDER BY u.full_name");
         $daftarSiswa = $siswaQuery->getResult();
         
         $data = [
             'title' => 'Lapor Cepat & Senyap - Radar Kelas',
             'siswa' => $siswa,
             'daftarSiswa' => $daftarSiswa,
+            'daftarKelas' => $daftarKelas,
             'validation' => \Config\Services::validation()
         ];
         

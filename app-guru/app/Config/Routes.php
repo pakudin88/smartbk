@@ -18,12 +18,21 @@ $routes->get('/logout', 'GuruAuth::logout');
 // Main dashboard 
 $routes->get('/dashboard', 'GuruAuth::dashboard');
 
+// Dashboard BK - main dashboard for counselors
+$routes->get('/dashboard-bk', 'DashboardBK::index');
+
 // Role-specific dashboard routes
 $routes->group('dashboard', function($routes) {
     $routes->get('guru-bk', 'RoleDashboard::dashboardGuruBK');
     $routes->get('guru-kelas', 'RoleDashboard::dashboardGuruKelas');
     $routes->get('wali-kelas', 'RoleDashboard::dashboardWaliKelas');
     $routes->get('kepala-sekolah', 'RoleDashboard::dashboardKepalaSekolah');
+});
+
+// Dashboard BK API routes
+$routes->group('api/dashboard', function($routes) {
+    $routes->get('statistik', 'DashboardBK::getStatistik');
+    $routes->get('chart/(:segment)', 'DashboardBK::getChartData/$1');
 });
 
 // Profile and settings
